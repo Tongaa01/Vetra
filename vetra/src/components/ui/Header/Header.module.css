@@ -1,0 +1,93 @@
+.headerContainer {
+    height: 7vh;
+    width: 100%;
+    background-color: #141414;
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    box-sizing: border-box;
+    z-index: 1000;;
+}
+
+.headerBanner {
+    height: 100%;
+}
+
+.headerSearchBar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.headerSearchBar input {
+    height: 26px;
+    padding: 2px 12px;
+    font-size: 13px;
+    width: 350px;
+    max-width: 100%;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+}
+
+.headerComponents {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-left: auto;
+    height: 100%;
+}
+
+.headerShoppingCart {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.headerShoppingCart button {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.headerShoppingCart {
+    font-size: 22px;
+    transition: color 0.2s ease;
+}
+
+.headerShoppingCart button:hover {
+    color: #f0f0f0;
+}
+
+.headerAccount {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.headerAccount button {
+    padding: 2px 8px;
+    font-size: 18px;
+    background-color: transparent;
+    color: #fff;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    transition: border 0.2s ease, color 0.2s ease;
+}
+
+.headerAccount button:hover {
+    background-color: #424141;
+    border: 1px solid #fff;
+    color: #f0f0f0;
+}
