@@ -41,9 +41,9 @@ export const Devoluciones = () => {
                         <h2>Productos no elegibles</h2>
                         <ul>
                             <li>Productos personalizados o hechos a medida</li>
-                            <li>Productos de higiene personal (a menos que estén defectuosos)</li>
+                            <li>Productos fuera de su etapa de garantia</li>
                             <li>Productos sin su empaque original</li>
-                            <li>Productos comprados en promociones especiales</li>
+                            <li>Productos comprados en promociones especiales o liquidaciones</li>
                         </ul>
 
                         <h2>Devoluciones por defectos</h2>

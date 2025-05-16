@@ -1,5 +1,5 @@
 
-export const SingIn = () => {
+export const SignIn = () => {
   return (
     <div>SingIn</div>
   )
