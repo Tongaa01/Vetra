@@ -10,7 +10,7 @@ export const Devoluciones = () => {
         <div>
             <Header />
             <div className={style.returnsContainer}>
-                <button onClick={() => navigate(-1)} className={style.backButton}>
+                <button onClick={() => navigate("/")} className={style.backButton}>
                     ← Inicio
                 </button>
 

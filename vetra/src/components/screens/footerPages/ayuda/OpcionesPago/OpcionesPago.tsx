@@ -10,7 +10,7 @@ export const OpcionesPago = () => {
         <div>
             <Header />
             <div className={style.paymentContainer}>
-                <button onClick={() => navigate(-1)} className={style.backButton}>
+                <button onClick={() => navigate("/")} className={style.backButton}>
                     ← Inicio
                 </button>
 

@@ -1,0 +1,25 @@
+[   ] - Landing
+[ x ] - Footer
+[ x ] - Páginas del footer
+                AYUDA
+        [ x ] - Envio y entregas
+        [ x ] - Devoluciones
+        [ x ] - Cambios
+        [ x ] - Opciones de pago
+        [ x ] - Defensa al consumidor
+        [ x ] - Como elegir tu talle
+        [ x ] - Tips
+                VETRA
+        [ x ] - Proposito
+        [ x ] - Noticias
+        [ x ] - Trabajá con nosotros
+[ x ] - Header
+[   ] - Links del header
+[   ] - Búsqueda
+[   ] - Filtros
+[   ] - Catálogo
+[   ] - Checkout
+[   ] - Login
+[   ] - Signin
+[   ] - Mercado Pago
+
