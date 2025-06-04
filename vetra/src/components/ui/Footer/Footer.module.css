@@ -9,99 +9,62 @@
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* <- esta es la clave */
+    align-items: flex-start; /* opcional, por si querés que todo quede arriba alineado */
     padding: 0 20px;
 }
 
-.footerSection {
-    flex: 2;
+
+.contactColumn {
+    flex: 1;
+}
+
+.rightColumnsWrapper {
+    display: flex;
+    flex-direction: row-reverse;    
+    gap: 60px;
+    /* Gap between Ayuda and Vetra columns */
+}
+
+.footerColumn {
+    flex: 1;
 }
 
 .footerTitle {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: bold;
     margin-bottom: 20px;
     text-transform: uppercase;
+    color: #141414;
 }
 
-.footerTable {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.footerTable td {
-    padding: 8px 0;
-    vertical-align: top;
-    border-bottom: 1px solid #e0e0e0;
-    width: 33%;
-}
-
-.footerTable tr:last-child td {
-    border-bottom: none;
-}
-
-.newsletterSection {
-    flex: 1;
-    margin-left: 40px;
-}
-
-.newsletterTitle {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
-
-.newsletterForm {
-    display: flex;
-    flex-direction: column;
-}
-
-.newsletterForm input {
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.newsletterForm button {
-    padding: 10px 15px;
-    background-color: #000;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
+.footerContent p {
+    font-size: 13px;
+    margin: 12px 0;
     cursor: pointer;
-    text-transform: uppercase;
-    font-weight: bold;
-    align-self: flex-start;
+    transition: color 0.2s ease;
 }
 
-.newsletterForm button:hover {
-    background-color: #333;
+.footerContent p:hover {
+    color: #0066cc;
 }
 
 @media (max-width: 768px) {
     .footerContainer {
         flex-direction: column;
+        gap: 30px;
     }
 
-    .newsletterSection {
-        margin-left: 0;
-        margin-top: 30px;
+    .rightColumnsWrapper {
+        flex-direction: column;
+        gap: 30px;
     }
 
-    .footerTable td {
-        display: block;
-        width: 100%;
-        border-bottom: none;
-        padding: 5px 0;
+    .footerColumn {
+        margin-bottom: 20px;
     }
 
-    .footerTable tr {
-        display: flex;
-        flex-wrap: wrap;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #e0e0e0;
-        padding-bottom: 10px;
+    .footerTitle {
+        margin-bottom: 15px;
     }
 }

@@ -1,4 +1,4 @@
-.returnsContainer {
+.tipsContainer {
     max-width: 800px;
     margin: 0 auto;
     padding: 40px 20px;
@@ -27,7 +27,6 @@
     background: white;
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 h1 {
@@ -40,25 +39,33 @@ h1 {
 
 h2 {
     font-size: 20px;
-    margin: 25px 0 15px 0;
+    margin: 30px 0 15px 0;
     color: #444;
 }
 
-p {
-    margin-bottom: 15px;
+.tipsSection ul {
+    margin: 15px 0 30px 20px;
 }
 
-ol,
-ul {
-    margin: 15px 0 25px 20px;
+.tipsSection li {
+    margin-bottom: 12px;
+    position: relative;
+    padding-left: 15px;
 }
 
-li {
-    margin-bottom: 8px;
+.tipsSection li:before {
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+strong {
+    color: #333;
+    font-weight: bold;
 }
 
 @media (max-width: 600px) {
-    .returnsContainer {
+    .tipsContainer {
         padding: 20px 15px;
     }
 

@@ -1,4 +1,4 @@
-.returnsContainer {
+.purposeContainer {
     max-width: 800px;
     margin: 0 auto;
     padding: 40px 20px;
@@ -48,17 +48,17 @@ p {
     margin-bottom: 15px;
 }
 
-ol,
 ul {
     margin: 15px 0 25px 20px;
 }
 
 li {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
+
 @media (max-width: 600px) {
-    .returnsContainer {
+    .purposeContainer {
         padding: 20px 15px;
     }
 

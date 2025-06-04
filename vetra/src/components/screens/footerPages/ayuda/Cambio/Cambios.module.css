@@ -1,4 +1,4 @@
-.returnsContainer {
+.cambiosContainer {
     max-width: 800px;
     margin: 0 auto;
     padding: 40px 20px;
@@ -58,7 +58,7 @@ li {
 }
 
 @media (max-width: 600px) {
-    .returnsContainer {
+    .cambiosContainer {
         padding: 20px 15px;
     }
 

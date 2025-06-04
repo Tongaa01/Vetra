@@ -1,6 +1,6 @@
 import styles from "./Singin.module.css"
 
-export const SingIn = () => {
+export const SignIn = () => {
   return (
     <div>SingIn</div>
   )

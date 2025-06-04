@@ -1,4 +1,4 @@
-.returnsContainer {
+.paymentContainer {
     max-width: 800px;
     margin: 0 auto;
     padding: 40px 20px;
@@ -44,11 +44,16 @@ h2 {
     color: #444;
 }
 
+h3 {
+    font-size: 18px;
+    margin: 20px 0 10px 0;
+    color: #444;
+}
+
 p {
     margin-bottom: 15px;
 }
 
-ol,
 ul {
     margin: 15px 0 25px 20px;
 }
@@ -58,7 +63,7 @@ li {
 }
 
 @media (max-width: 600px) {
-    .returnsContainer {
+    .paymentContainer {
         padding: 20px 15px;
     }
 
@@ -70,7 +75,8 @@ li {
         font-size: 24px;
     }
 
-    h2 {
+    h2,
+    h3 {
         font-size: 18px;
     }
 }
