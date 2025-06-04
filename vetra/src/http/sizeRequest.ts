@@ -1,5 +1,6 @@
 import axios from "axios"
-import { ISize } from "../types/ISize"
+import type { ISize } from "../types/ISize"
+
 
 const APIURL=import.meta.env.VITE_APIURL
 const baseURL=`${APIURL}/talles`

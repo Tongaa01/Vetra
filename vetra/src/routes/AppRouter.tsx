@@ -9,9 +9,11 @@ import { Tips } from "../components/screens/footerPages/ayuda/Tips/Tips"
 import { Noticias } from "../components/screens/footerPages/vetra/Noticias/Noticias"
 import { Proposito } from "../components/screens/footerPages/vetra/Proposito/Proposito"
 import { TrabajaConNosotros } from "../components/screens/footerPages/vetra/TrabajaConNosotros/TrabajaConNosotros"
-import { Landing } from "../components/screens/landing/Landing"
-import { LogIn } from "../components/screens/login/LogIn"
-import { SignIn } from "../components/screens/singin/SignIn"
+import { Landing } from "../components/screens/Landing/Landing"
+import { Login } from "../components/screens/Login/LogIn"
+import { SingIn } from "../components/screens/Singin/SignIn"
+
+
 
 export const AppRouter = () => {
     return (
@@ -22,10 +24,10 @@ export const AppRouter = () => {
                     <Landing />
                 } />
                 <Route path="/login" element={
-                    <LogIn />
+                    <Login />
                 } />
                 <Route path="/signin" element={
-                    <SignIn />
+                    <SingIn />
                 } />
 
                 // Footer: Ayuda

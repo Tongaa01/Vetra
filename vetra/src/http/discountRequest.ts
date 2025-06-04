@@ -1,5 +1,6 @@
 import axios from "axios"
-import { IDiscount } from "../types/IDiscount"
+import type { IDiscount } from "../types/IDiscount"
+
 
 const APIURL=import.meta.env.VITE_APIURL
 const baseURL=`${APIURL}/descuentos`

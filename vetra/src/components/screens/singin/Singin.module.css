@@ -1,0 +1,88 @@
+.mainContainer{
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.contentContainer{
+    background-color: #FFF;
+    width: 100%;
+    height: 93vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    
+}
+.imageContainer{
+    display: flex;
+    justify-content: center;
+}
+.image{
+    width: 40%;
+}
+.logInComponent{
+    background-color: #FFF;
+    border: 2PX solid #D9D9D9;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 70%;
+}
+.logInComponent_header{
+    padding-left: 1rem;
+    background-color: #000411;
+    color: white;
+    width: auto;
+    height: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+.logInComponent_content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: .4rem;
+}
+.logInComponent_content_inputs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .2rem;
+}
+.logInComponent_content_button{
+    width: 90%;
+}
+.inputComponent{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    gap: .4rem;
+}
+.inpuntStyles{
+    color: gray;
+    border: 1px solid gray;
+    height: 2rem;
+}
+.errorMessage{
+    margin-top: .6rem;
+    font-size: 1rem;
+    text-align: center;
+    color: red;
+}
+p{
+    font-size: 1.3rem;
+}
+.navText{
+    text-decoration: underline;
+}
+.navText:hover{
+    color: rgb(40, 40, 249);
+}
+input{
+    border-radius: .2rem;
+}

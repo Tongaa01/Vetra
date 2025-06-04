@@ -1,5 +1,6 @@
 import axios from "axios"
-import { IUser } from "../types/IUser"
+import type { IUser } from "../types/IUser"
+
 
 const APIURL=import.meta.env.VITE_APIURL
 const baseURL=`${APIURL}/usuarios`
