@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Devoluciones } from "../components/screens/footerPages/ayuda/Devoluciones/Devoluciones"
 import { Envios } from "../components/screens/footerPages/ayuda/Envios/Envios"
-import { Landing } from "../components/screens/landing/Landing"
-import { LogIn } from "../components/screens/login/LogIn"
-import { SingIn } from "../components/screens/singin/SingIn"
+import { Landing } from "../components/screens/Landing/Landing"
+import { LogIn } from "../components/screens/Login/LogIn"
+import { SingIn } from "../components/screens/Singin/SingIn"
 
 export const AppRouter = () => {
     return (
