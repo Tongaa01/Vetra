@@ -1,5 +1,4 @@
 import type { ICategories } from "./ICategories"
-import type { IDiscount } from "./IDiscount"
 import type { ISize } from "./ISize"
 
 export interface IProduct {
@@ -9,10 +8,9 @@ export interface IProduct {
     precio: number,
     descripcion: string,
     categoria: ICategories[],
-    talle: string,
+    id_talle_producto: ISize[] | string[],
     imagen: string,
     color: string[],
     marca: string,
-    id_talle_producto: ISize | string,
-    id_descuento_producto: IDiscount | string
+    id_descuento_producto: number
 }

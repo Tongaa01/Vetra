@@ -22,7 +22,13 @@ export const Landing = () => {
                 <div className={style.trendingProducts}>
                     <h2>LO MÁS VENDIDO</h2>
                     <div className={style.productGrid}>
-                        {productosMock.map((item) => (
+                        {productosMock
+                            .filter(
+                                (item) =>
+                                    typeof item.id_descuento_producto === "number" &&
+                                    item.id_descuento_producto > 20
+                            )
+                            .slice(0,4).map((item) => (
                             <div className={style.productCard}>
                                 <img src={item.imagen} alt={`Producto ${item}`} />
                                 <div className={style.productInfo}>
@@ -30,7 +36,8 @@ export const Landing = () => {
                                     <p>{item.categoria.map((cat)=>(
                                         <p>{cat.nombre}</p>
                                     ))}</p>
-                                    <span>${item.precio}</span>
+                                    <p><i>Precio con descuento:</i></p>
+                                    <span>${item.precio} ${Math.floor(item.precio * ((100-item.id_descuento_producto)/100))}</span>
                                     <button>AÑADIR AL CARRITO</button>
                                 </div>
                             </div>
@@ -60,7 +67,7 @@ export const Landing = () => {
                 <div className={style.promoBanner}>
                     <div className={style.promoContent}>
                         <h2>OFERTA POR TIEMPO LIMITADO</h2>
-                        <p>30% de descuento en todos los productos este fin de semana</p>
+                        <p>Mirá los productos que tenemos para vos este finde.</p>
                         <button className={style.ctaButton}>VER OFERTAS</button>
                     </div>
                 </div>
