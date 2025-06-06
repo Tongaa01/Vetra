@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ICategories } from "../types/ICategories"
+import type { ICategories } from "../types/ICategories"
 
 const APIURL=import.meta.env.VITE_APIURL
 

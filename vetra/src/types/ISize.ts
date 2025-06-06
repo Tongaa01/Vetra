@@ -1,4 +1,4 @@
-export interface ISize{
-    id?:string,
-    talle:string
+export interface ISize {
+    id?: string,
+    talle: string
 }

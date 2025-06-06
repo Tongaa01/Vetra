@@ -1,5 +1,5 @@
 import axios from "axios"
-import { IAdress } from "../types/IAdress"
+import type { IAdress } from "../types/IAdress"
 
 const APIURL=import.meta.env.VITE_APIURL
 const baseURL=`${APIURL}/direcciones`

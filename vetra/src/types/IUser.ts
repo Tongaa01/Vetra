@@ -1,14 +1,9 @@
-
-
-export enum Role {
-  ADMIN,
-  USUARIO,
-}
+export type Role = 'ADMIN' | 'USUARIO';
 
 export interface IUser {
   id?: string
   nombre: string
   email: string
   contraseña: string
-  rol: string
+  rol: Role
 }
