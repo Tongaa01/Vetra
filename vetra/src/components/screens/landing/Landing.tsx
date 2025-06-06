@@ -1,3 +1,4 @@
+import { productosMock } from "../../../mock/productos.mock";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import style from "./Landing.module.css";
@@ -21,14 +22,16 @@ export const Landing = () => {
                 <div className={style.trendingProducts}>
                     <h2>LO MÁS VENDIDO</h2>
                     <div className={style.productGrid}>
-                        {[1, 2, 3, 4].map((item) => (
-                            <div key={item} className={style.productCard}>
-                                <img src={`/product-${item}.jpg`} alt={`Producto ${item}`} />
+                        {productosMock.map((item) => (
+                            <div className={style.productCard}>
+                                <img src={item.imagen} alt={`Producto ${item}`} />
                                 <div className={style.productInfo}>
-                                    <h3>Producto {item}</h3>
-                                    <p>Categoría</p>
-                                    <span>$99.99</span>
-                                    <button>AÑADIR RÁPIDO</button>
+                                    <h3>{item.nombre}</h3>
+                                    <p>{item.categoria.map((cat)=>(
+                                        <p>{cat.nombre}</p>
+                                    ))}</p>
+                                    <span>${item.precio}</span>
+                                    <button>AÑADIR AL CARRITO</button>
                                 </div>
                             </div>
                         ))}
