@@ -14,31 +14,6 @@ export const Landing = () => {
                         <div>
                             <img src="../../../../public/carousel.png" alt="Nueva Colección" />
                         </div>
-
-                        <div className={style.carouselContent}>
-                            <h2>NUEVA COLECCIÓN</h2>
-                            <p>Descubre las últimas tendencias en ropa deportiva</p>
-                            <button className={style.ctaButton}>COMPRAR AHORA</button>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Categorías destacadas */}
-                <div className={style.featuredCategories}>
-                    <h2>COMPRAR POR CATEGORÍA</h2>
-                    <div className={style.categoryGrid}>
-                        <div className={style.categoryCard}>
-                            <img src="/category-shoes.jpg" alt="Zapatos" />
-                            <h3>Zapatos</h3>
-                        </div>
-                        <div className={style.categoryCard}>
-                            <img src="/category-apparel.jpg" alt="Ropa" />
-                            <h3>Ropa</h3>
-                        </div>
-                        <div className={style.categoryCard}>
-                            <img src="/category-accessories.jpg" alt="Accesorios" />
-                            <h3>Accesorios</h3>
-                        </div>
                     </div>
                 </div>
 
@@ -57,6 +32,24 @@ export const Landing = () => {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                </div>
+
+                {/* Categorías destacadas */}
+                <div className={style.featuredCategories}>
+                    <h2>COMPRAR POR CATEGORÍA</h2>
+                    <div className={style.categoryGrid}>
+                        {/* Primera fila (2 botones) */}
+                        <div className={style.topRow}>
+                            <button className={style.categoryButton}>ZAPATILLAS</button>
+                            <button className={style.categoryButton}>CAMPERAS</button>
+                        </div>
+                        {/* Segunda fila (3 botones) */}
+                        <div className={style.bottomRow}>
+                            <button className={style.categoryButton}>HOMBRE</button>
+                            <button className={style.categoryButton}>MUJER</button>
+                            <button className={style.categoryButton}>NIÑOS</button>
+                        </div>
                     </div>
                 </div>
 
