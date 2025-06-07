@@ -11,7 +11,7 @@ const baseURL=`${APIURL}/NONE`
 
 export const getAllOrderDetail=async()=>{
     try {
-        const response=await axios.get(`${baseURL}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
+        const response=await axios.get(`${baseURL}`)
         if(response){
             return response.data
         }
@@ -22,7 +22,7 @@ export const getAllOrderDetail=async()=>{
 }
 export const getOrderDetailById=async(id:string)=>{
     try {
-        const response=await axios.get(`${baseURL}/${id}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
+        const response=await axios.get(`${baseURL}/${id}`)
         if(response){
             return response.data
         }

@@ -10,7 +10,7 @@ const baseURL=`${APIURL}/pedidos`
 
 export const getAllRequests=async()=>{
     try {
-        const response=await axios.get(`${baseURL}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
+        const response=await axios.get(`${baseURL}`)
         if(response){
             return response.data
         }
@@ -21,7 +21,7 @@ export const getAllRequests=async()=>{
 }
 export const getRequestById=async(id:string)=>{
     try {
-        const response=await axios.get(`${baseURL}/${id}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
+        const response=await axios.get(`${baseURL}/${id}`)
         if(response){
             return response.data
         }

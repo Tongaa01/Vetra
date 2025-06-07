@@ -8,7 +8,7 @@ const baseURL=`${APIURL}/descuentos`
 
 export const getAllDiscounts=async()=>{
     try {
-        const response=await axios.get(`${baseURL}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
+        const response=await axios.get(`${baseURL}`)
         if(response){
             return response.data
         }
@@ -19,7 +19,7 @@ export const getAllDiscounts=async()=>{
 }
 export const getDiscountById=async(id:string)=>{
     try {
-        const response=await axios.get(`${baseURL}/${id}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
+        const response=await axios.get(`${baseURL}/${id}`)
         if(response){
             return response.data
         }
