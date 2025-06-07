@@ -9,7 +9,7 @@ const baseURL=`${APIURL}/productos`
 
 export const getAllProducts=async()=>{
     try {
-        const response=await axios.get(`${baseURL}`,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.get(`${baseURL}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -20,7 +20,7 @@ export const getAllProducts=async()=>{
 }
 export const getProductById=async(id:string)=>{
     try {
-        const response=await axios.get(`${baseURL}/${id}`,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.get(`${baseURL}/${id}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -31,7 +31,7 @@ export const getProductById=async(id:string)=>{
 }
 export const createProducts=async(newProduct:IProduct)=>{
     try {
-        const response=await axios.post(`${baseURL}`,newProduct,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.post(`${baseURL}`,newProduct,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -42,7 +42,7 @@ export const createProducts=async(newProduct:IProduct)=>{
 }
 export const updateProduct=async(updatedProduct:IProduct)=>{
     try {
-        const response=await axios.put(`${baseURL}/${updatedProduct.id}`,updatedProduct,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.put(`${baseURL}/${updatedProduct.id}`,updatedProduct,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -53,7 +53,7 @@ export const updateProduct=async(updatedProduct:IProduct)=>{
 }
 export const deleteProductById=async(id:string)=>{
     try {
-        const response=await axios.delete(`${baseURL}/${id}`,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.delete(`${baseURL}/${id}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return {message:"El producto fue eliminado correctamente"}
         }

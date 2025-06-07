@@ -11,7 +11,7 @@ const baseURL=`${APIURL}/NONE`
 
 export const getAllRequestItem=async()=>{
     try {
-        const response=await axios.get(`${baseURL}`,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.get(`${baseURL}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -22,7 +22,7 @@ export const getAllRequestItem=async()=>{
 }
 export const getRequesItemtById=async(id:string)=>{
     try {
-        const response=await axios.get(`${baseURL}/${id}`,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.get(`${baseURL}/${id}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -33,7 +33,7 @@ export const getRequesItemtById=async(id:string)=>{
 }
 export const createRequestItem=async(newRequestItem:IRequestItem)=>{
     try {
-        const response=await axios.post(`${baseURL}`,newRequestItem,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.post(`${baseURL}`,newRequestItem,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -44,7 +44,7 @@ export const createRequestItem=async(newRequestItem:IRequestItem)=>{
 }
 export const updateRequestItem=async(updatedRequestItem:IRequestItem)=>{
     try {
-        const response=await axios.put(`${baseURL}/${updatedRequestItem.id}`,updatedRequestItem,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.put(`${baseURL}/${updatedRequestItem.id}`,updatedRequestItem,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -55,7 +55,7 @@ export const updateRequestItem=async(updatedRequestItem:IRequestItem)=>{
 }
 export const deleteRequestItemById=async(id:string)=>{
     try {
-        const response=await axios.delete(`${baseURL}/${id}`,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.delete(`${baseURL}/${id}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return {message:"El pedido item fue eliminado correctamente"}
         }

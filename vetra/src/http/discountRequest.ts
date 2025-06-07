@@ -8,7 +8,7 @@ const baseURL=`${APIURL}/descuentos`
 
 export const getAllDiscounts=async()=>{
     try {
-        const response=await axios.get(`${baseURL}`,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.get(`${baseURL}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -19,7 +19,7 @@ export const getAllDiscounts=async()=>{
 }
 export const getDiscountById=async(id:string)=>{
     try {
-        const response=await axios.get(`${baseURL}/${id}`,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.get(`${baseURL}/${id}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -30,7 +30,7 @@ export const getDiscountById=async(id:string)=>{
 }
 export const createDiscount=async(newDiscount:IDiscount)=>{
     try {
-        const response=await axios.post(`${baseURL}`,newDiscount,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.post(`${baseURL}`,newDiscount,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -41,7 +41,7 @@ export const createDiscount=async(newDiscount:IDiscount)=>{
 }
 export const updateDiscount=async(updatedDiscount:IDiscount)=>{
     try {
-        const response=await axios.put(`${baseURL}/${updatedDiscount.id}`,updatedDiscount,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.put(`${baseURL}/${updatedDiscount.id}`,updatedDiscount,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -52,7 +52,7 @@ export const updateDiscount=async(updatedDiscount:IDiscount)=>{
 }
 export const deleteDiscount=async(id:string)=>{
     try {
-        const response=await axios.delete(`${baseURL}/${id}`,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.delete(`${baseURL}/${id}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return {message:"El talle fue eliminado correctamente"}
         }

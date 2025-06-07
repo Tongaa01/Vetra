@@ -10,7 +10,7 @@ const baseURL=`${APIURL}/pedidos`
 
 export const getAllRequests=async()=>{
     try {
-        const response=await axios.get(`${baseURL}`,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.get(`${baseURL}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -21,7 +21,7 @@ export const getAllRequests=async()=>{
 }
 export const getRequestById=async(id:string)=>{
     try {
-        const response=await axios.get(`${baseURL}/${id}`,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.get(`${baseURL}/${id}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -32,7 +32,7 @@ export const getRequestById=async(id:string)=>{
 }
 export const createRequest=async(newRequest:IRequest)=>{
     try {
-        const response=await axios.post(`${baseURL}`,newRequest,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.post(`${baseURL}`,newRequest,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -43,7 +43,7 @@ export const createRequest=async(newRequest:IRequest)=>{
 }
 export const updateRequest=async(updatedRequest:IRequest)=>{
     try {
-        const response=await axios.put(`${baseURL}/${updatedRequest.id}`,updatedRequest,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.put(`${baseURL}/${updatedRequest.id}`,updatedRequest,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data
         }
@@ -54,7 +54,7 @@ export const updateRequest=async(updatedRequest:IRequest)=>{
 }
 export const deleteRequestById=async(id:string)=>{
     try {
-        const response=await axios.delete(`${baseURL}/${id}`,{headers:{"Authorization":getLocalToken()}})
+        const response=await axios.delete(`${baseURL}/${id}`,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return {message:"El pedido fue eliminado correctamente"}
         }
