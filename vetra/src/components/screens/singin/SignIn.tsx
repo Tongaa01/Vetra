@@ -1,6 +1,6 @@
 import styles from "./Singin.module.css"
 import { useState, type ChangeEvent } from "react"
-import { useNavigate } from "react-router-dom"
+import { redirect, useNavigate } from "react-router-dom"
 import { Button } from "../../ui/Button/Button"
 import { Footer } from "../../ui/Footer/Footer"
 import type { IRegisterBody } from "../../../types/IRegisterBody"
@@ -10,10 +10,11 @@ import { ROLE, type IUser } from "../../../types/IUser"
 
 
 const initialValues = {
-  name:"",
+  name: "",
+  surname:"",
   email: "",
   password: "",
-  confirmPassword:""
+  confirmPassword: ""
 }
 export const SingIn = () => {
   const [singInInfo, setsingInInfo] = useState<IRegisterBody>(initialValues)
@@ -25,19 +26,23 @@ export const SingIn = () => {
   }
   const navigate = useNavigate()
   const handleRegister = async () => {
-    if(singInInfo.password!=singInInfo.confirmPassword){
+    if (singInInfo.password != singInInfo.confirmPassword) {
       setErrorMessage("Las contraseñas no coinciden")
       return
     }
-    const newUser:IUser={
-      nombre:singInInfo.name,
-      email:singInInfo.email,
-      contraseña:singInInfo.password,
-      rol:ROLE.USUARIO,
-      direcciones:[]
+
+    const newUser: IUser = {
+      nombre: singInInfo.name,
+      apellido: singInInfo.surname,
+      email: singInInfo.email,
+      password: singInInfo.password,
+      rol: ROLE[1],
+      direcciones: []
     }
-    const response= await createUser(newUser)
-    if(response!=201){
+    console.log(newUser)
+    const response = await createUser(newUser)
+    console.log(response)
+    if (response != 201) {
       setErrorMessage("Ocurrio un error intenta denuevo")
       return
     }
@@ -60,7 +65,11 @@ export const SingIn = () => {
             <div className={styles.logInComponent_content_inputs}>
               <div className={styles.inputComponent}>
                 <p>Nombre</p>
-                <input placeholder="John Doe" className={styles.inpuntStyles} type="text" name="name" onChange={handleChangeInputs} />
+                <input placeholder="John" className={styles.inpuntStyles} type="text" name="name" onChange={handleChangeInputs} />
+              </div>
+              <div className={styles.inputComponent}>
+                <p>Apellido</p>
+                <input placeholder="Doe" className={styles.inpuntStyles} type="text" name="surname" onChange={handleChangeInputs} />
               </div>
               <div className={styles.inputComponent}>
                 <p>Email</p>
@@ -80,7 +89,7 @@ export const SingIn = () => {
             </div>
 
           </div>
-          <div onClick={()=>{
+          <div onClick={() => {
             navigate("/login")
           }}>
             <p className={styles.navText}>Ya tengo cuenta</p>

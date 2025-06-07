@@ -6,12 +6,11 @@ export enum ROLE {
 }
 
 export interface IUser {
-  id?: number;
-  nombre: string;
-  email: string;
-  contraseña: string;
-  rol: ROLE;
-  direcciones:IAdress[];
-  
-
+  id?: number
+  nombre: string
+  apellido:string 
+  email: string
+  password: string
+  rol: ROLE | string
+  direcciones:IAdress[]
 }
