@@ -1,12 +1,15 @@
 import axios from "axios"
 import type { IAdress } from "../types/IAdress"
+import { getLocalToken } from "../services/tokenService"
+
+
 
 const APIURL=import.meta.env.VITE_APIURL
 const baseURL=`${APIURL}/direcciones`
 
 export const getAllAdresses=async()=>{
     try {
-        const response=await axios.get(`${baseURL}`)
+        const response=await axios.get(`${baseURL}`,{headers:{"Authorization":getLocalToken()}})
         if(response){
             return response.data
         }
@@ -17,7 +20,7 @@ export const getAllAdresses=async()=>{
 }
 export const getAdressById=async(id:string)=>{
     try {
-        const response=await axios.get(`${baseURL}/${id}`)
+        const response=await axios.get(`${baseURL}/${id}`,{headers:{"Authorization":getLocalToken()}})
         if(response){
             return response.data
         }
@@ -28,7 +31,7 @@ export const getAdressById=async(id:string)=>{
 }
 export const createAdress=async(newAdress:IAdress)=>{
     try {
-        const response=await axios.post(`${baseURL}`,newAdress)
+        const response=await axios.post(`${baseURL}`,newAdress,{headers:{"Authorization":getLocalToken()}})
         if(response){
             return response.data
         }
@@ -39,7 +42,7 @@ export const createAdress=async(newAdress:IAdress)=>{
 }
 export const updateAdress=async(updatedAdress:IAdress)=>{
     try {
-        const response=await axios.put(`${baseURL}/${updatedAdress.id}`,updatedAdress)
+        const response=await axios.put(`${baseURL}/${updatedAdress.id}`,updatedAdress,{headers:{"Authorization":getLocalToken()}})
         if(response){
             return response.data
         }
@@ -50,7 +53,7 @@ export const updateAdress=async(updatedAdress:IAdress)=>{
 }
 export const deleteAdressById=async(id:string)=>{
     try {
-        const response=await axios.delete(`${baseURL}/${id}`)
+        const response=await axios.delete(`${baseURL}/${id}`,{headers:{"Authorization":getLocalToken()}})
         if(response){
             return {message:"La categoria fue eliminada correctamente"}
         }
