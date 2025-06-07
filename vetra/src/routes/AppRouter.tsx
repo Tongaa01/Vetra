@@ -9,9 +9,10 @@ import { Tips } from "../components/screens/footerPages/ayuda/Tips/Tips"
 import { Noticias } from "../components/screens/footerPages/vetra/Noticias/Noticias"
 import { Proposito } from "../components/screens/footerPages/vetra/Proposito/Proposito"
 import { TrabajaConNosotros } from "../components/screens/footerPages/vetra/TrabajaConNosotros/TrabajaConNosotros"
-import { Landing } from "../components/screens/Landing/Landing"
-import { Login } from "../components/screens/Login/LogIn"
-import { SingIn } from "../components/screens/Singin/SignIn"
+import { Landing } from "../components/screens/landing/Landing"
+import { Login } from "../components/screens/login/LogIn"
+import { SingIn } from "../components/screens/singin/SignIn"
+
 
 
 

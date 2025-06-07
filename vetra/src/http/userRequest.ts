@@ -31,7 +31,7 @@ export const createUser=async(newUser:IUser)=>{
     try {
         const response=await axios.post(`${baseURL}`,newUser,{headers:{"Authorization":getLocalToken()}})
         if(response){
-            return response.data
+            return response.status
         }
         return null
     } catch (error) {

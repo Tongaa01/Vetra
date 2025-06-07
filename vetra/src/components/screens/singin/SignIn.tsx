@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom"
 import { Button } from "../../ui/Button/Button"
 import { Footer } from "../../ui/Footer/Footer"
 import type { IRegisterBody } from "../../../types/IRegisterBody"
+import { createUser } from "../../../http/userRequest"
+import { ROLE, type IUser } from "../../../types/IUser"
 
 
 
@@ -14,16 +16,31 @@ const initialValues = {
   confirmPassword:""
 }
 export const SingIn = () => {
-  const [logInInfo, setLogInInfo] = useState<IRegisterBody>(initialValues)
+  const [singInInfo, setsingInInfo] = useState<IRegisterBody>(initialValues)
   const [errorMessage, setErrorMessage] = useState<string>("")
 
   const handleChangeInputs = (event: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target
-    setLogInInfo((prev) => ({ ...prev, [`${name}`]: value }))
+    setsingInInfo((prev) => ({ ...prev, [`${name}`]: value }))
   }
   const navigate = useNavigate()
   const handleRegister = async () => {
-
+    if(singInInfo.password!=singInInfo.confirmPassword){
+      setErrorMessage("Las contraseñas no coinciden")
+      return
+    }
+    const newUser:IUser={
+      nombre:singInInfo.name,
+      email:singInInfo.email,
+      contraseña:singInInfo.password,
+      rol:ROLE.USUARIO,
+    }
+    const response= await createUser(newUser)
+    if(response!=201){
+      setErrorMessage("Ocurrio un error intenta denuevo")
+      return
+    }
+    navigate('/login')
   }
 
 
