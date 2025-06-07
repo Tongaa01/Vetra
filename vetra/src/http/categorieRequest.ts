@@ -1,13 +1,13 @@
 import axios from "axios"
+import { getLocalToken } from "../services/tokenService"
 import type { ICategories } from "../types/ICategories"
-
 
 const APIURL=import.meta.env.VITE_APIURL
 
 
 export const getAllCategories=async()=>{
     try {
-        const response=await axios.get(`${APIURL}/categorias`)
+        const response=await axios.get(`${APIURL}/categorias`,{headers:{"Authorization":getLocalToken()}})
         if(response){
             return response.data
         }
@@ -18,7 +18,7 @@ export const getAllCategories=async()=>{
 }
 export const getCategoriesById=async(id:string)=>{
     try {
-        const response=await axios.get(`${APIURL}/categorias/${id}`)
+        const response=await axios.get(`${APIURL}/categorias/${id}`,{headers:{"Authorization":getLocalToken()}})
         if(response){
             return response.data
         }
@@ -29,7 +29,7 @@ export const getCategoriesById=async(id:string)=>{
 }
 export const createCategorie=async(categorie:ICategories)=>{
     try {
-        const response=await axios.post(`${APIURL}/categorias`,categorie)
+        const response=await axios.post(`${APIURL}/categorias`,categorie,{headers:{"Authorization":getLocalToken()}})
         if(response){
             return response.data
         }
@@ -40,7 +40,7 @@ export const createCategorie=async(categorie:ICategories)=>{
 }
 export const updateCategorie=async(updatedCategorie:ICategories)=>{
     try {
-        const response=await axios.put(`${APIURL}/categorias/${updatedCategorie.id}`,updatedCategorie)
+        const response=await axios.put(`${APIURL}/categorias/${updatedCategorie.id}`,updatedCategorie,{headers:{"Authorization":getLocalToken()}})
         if(response){
             return response.data
         }
@@ -51,7 +51,7 @@ export const updateCategorie=async(updatedCategorie:ICategories)=>{
 }
 export const deleteCategorieById=async(id:string)=>{
     try {
-        const response=await axios.delete(`${APIURL}/categorias/${id}`)
+        const response=await axios.delete(`${APIURL}/categorias/${id}`,{headers:{"Authorization":getLocalToken()}})
         if(response){
             return {message:"La categoria fue eliminada correctamente"}
         }

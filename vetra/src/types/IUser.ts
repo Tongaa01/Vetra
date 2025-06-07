@@ -1,14 +1,12 @@
-
-
-export enum Role {
+export enum ROLE {
   ADMIN,
   USUARIO,
 }
 
 export interface IUser {
-  id?: string
-  nombre: string
-  email: string
-  contraseña: string
-  rol: string
+  id?: number;
+  nombre: string;
+  email: string;
+  contraseña: string;
+  rol: ROLE;
 }

@@ -1,16 +1,19 @@
-import { ICategories } from "./ICategories";
+import type { ICategories } from "./ICategories";
+import type { ISize } from "./ISize";
+
 
 
 export interface IProduct{
-    id:string,
+    id?:number,
     nombre:string,
-    stock:number,
-    precio:number,
     descripcion:string,
+    precio:number,
+    stock:number,
     categoria:ICategories[],
-    talle:string,
     color:string[],
     marca:string,
-    id_talle_producto:string,
-    id_descuento_producto:string
+    image:string,
+    talle:string,
+    descuento_id:string
+    talles:ISize,
 }

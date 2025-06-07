@@ -1,7 +1,8 @@
-import { IProduct } from "./IProduct";
+import type { IProduct } from "./IProduct";
+
 
 export interface IDiscount{
-    id?:string,
+    id?:number,
     fechaInicio:Date,
     fechaCierre:Date,
     descuento:number,
