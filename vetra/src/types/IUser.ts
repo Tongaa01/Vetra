@@ -1,3 +1,5 @@
+import type { IAdress } from "./IAdress";
+
 export enum ROLE {
   ADMIN,
   USUARIO,
@@ -9,4 +11,7 @@ export interface IUser {
   email: string;
   contraseña: string;
   rol: ROLE;
+  direcciones:IAdress[];
+  
+
 }

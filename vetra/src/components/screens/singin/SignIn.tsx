@@ -34,6 +34,7 @@ export const SingIn = () => {
       email:singInInfo.email,
       contraseña:singInInfo.password,
       rol:ROLE.USUARIO,
+      direcciones:[]
     }
     const response= await createUser(newUser)
     if(response!=201){
@@ -59,7 +60,7 @@ export const SingIn = () => {
             <div className={styles.logInComponent_content_inputs}>
               <div className={styles.inputComponent}>
                 <p>Nombre</p>
-                <input placeholder="example@gmail.com" className={styles.inpuntStyles} type="text" name="name" onChange={handleChangeInputs} />
+                <input placeholder="John Doe" className={styles.inpuntStyles} type="text" name="name" onChange={handleChangeInputs} />
               </div>
               <div className={styles.inputComponent}>
                 <p>Email</p>

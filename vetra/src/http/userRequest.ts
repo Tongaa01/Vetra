@@ -29,7 +29,7 @@ export const getUserById=async(id:string)=>{
 }
 export const createUser=async(newUser:IUser)=>{
     try {
-        const response=await axios.post(`${baseURL}`,newUser,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
+        const response=await axios.post(`${baseURL}`,newUser)
         if(response){
             return response.status
         }
