@@ -6,5 +6,5 @@ export interface IDiscount{
     fechaInicio:Date,
     fechaCierre:Date,
     descuento:number,
-    productos:IProduct[]
+    productos?:IProduct[]
 }

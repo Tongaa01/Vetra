@@ -1,9 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import { productosMock } from "../../../mock/productos.mock";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import style from "./Landing.module.css";
 
 export const Landing = () => {
+
+    const navigate = useNavigate()
+
     return (
         <div className={style.landingContainer}>
             <Header />
@@ -26,7 +30,7 @@ export const Landing = () => {
                             .filter(
                                 (item) =>
                                     typeof item.descuento_id === "number" &&  // CORREGIR
-                                    item.descuento_id > 20
+                                    item.descuento_id > 0
                             )
                             .slice(0, 4).map((item) => (
                                 <div className={style.productCard}>
@@ -34,11 +38,10 @@ export const Landing = () => {
                                     <div className={style.productInfo}>
                                         <h3>{item.nombre}</h3>
                                         <p>{item.descripcion}</p>
-                                        <p><i>Precio con descuento:</i></p>
                                         <div className={style.priceBlock}>
                                             <span className={style.originalPrice}>${item.precio.toLocaleString('es-AR')}</span>
                                             <span className={style.discountPrice}>
-                                                ${Math.floor(item.precio * ((100 - item.precio) / 100)).toLocaleString('es-AR')}  // CORREGIR
+                                                ${Math.floor(item.precio * ((100 - item.descuento_id) / 100)).toLocaleString('es-AR')}
                                             </span>
                                         </div>
                                         {/*<span>${item.precio} ${Math.floor(item.precio * ((100-item.id_descuento_producto)/100))}</span>*/}
@@ -72,7 +75,7 @@ export const Landing = () => {
                     <div className={style.promoContent}>
                         <h2>OFERTA POR TIEMPO LIMITADO</h2>
                         <p>Mirá los productos que tenemos para vos este finde.</p>
-                        <button className={style.ctaButton}>VER OFERTAS</button>
+                        <button className={style.ctaButton} onClick={()=> navigate("/search/offers")}>VER OFERTAS</button>
                     </div>
                 </div>
 
