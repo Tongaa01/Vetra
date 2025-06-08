@@ -103,9 +103,12 @@
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 0 1rem;
-    position: relative; /* Necesario para el z-index */
-    overflow: hidden; /* Para contener la imagen de fondo */
-    z-index: 1; /* Asegura que el texto esté sobre la imagen */
+    position: relative;
+    /* Necesario para el z-index */
+    overflow: hidden;
+    /* Para contener la imagen de fondo */
+    z-index: 1;
+    /* Asegura que el texto esté sobre la imagen */
 }
 
 .topRow .categoryButton {
@@ -116,89 +119,11 @@
     height: 100%;
 }
 
-/* Cover foto HOMBRE */
-.buttonPhoto3 {
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    transition: color 0.3s ease;
-}
-
-.buttonPhoto3::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("https://res.cloudinary.com/danzaburou/image/upload/v1749340030/hombre_aovq5v.png");
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-}
-
-.buttonPhoto3::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-}
-
-.buttonPhoto3:hover::before,
-.buttonPhoto3:hover::after {
-    opacity: 1;
-}
-
-/* Cover foto MUJER */
-.buttonPhoto4 {
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    transition: color 0.3s ease;
-}
-
-.buttonPhoto4::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("https://res.cloudinary.com/danzaburou/image/upload/v1749340029/mujer_aslcky.png");
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-}
-
-.buttonPhoto4::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-}
-
-.buttonPhoto4:hover::before,
-.buttonPhoto4:hover::after {
-    opacity: 1;
-}
-
-/* Cover foto NIÑOS */
+/* Cover foto para todos los botones */
+.buttonPhoto1,
+.buttonPhoto2,
+.buttonPhoto3,
+.buttonPhoto4,
 .buttonPhoto5 {
     position: relative;
     overflow: hidden;
@@ -206,6 +131,10 @@
     transition: color 0.3s ease;
 }
 
+.buttonPhoto1::before,
+.buttonPhoto2::before,
+.buttonPhoto3::before,
+.buttonPhoto4::before,
 .buttonPhoto5::before {
     content: "";
     position: absolute;
@@ -213,7 +142,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("https://res.cloudinary.com/danzaburou/image/upload/v1749340030/boy_dpn5l6.png");
     background-size: cover;
     background-position: center;
     opacity: 0;
@@ -221,6 +149,30 @@
     z-index: -1;
 }
 
+.buttonPhoto1::before {
+    background-image: url("https://res.cloudinary.com/danzaburou/image/upload/v1749411545/zapatillas_eqkemk.png");
+}
+
+.buttonPhoto2::before {
+    background-image: url("https://res.cloudinary.com/danzaburou/image/upload/v1749408788/campera_nlep2m.png");
+}
+
+.buttonPhoto3::before {
+    background-image: url("https://res.cloudinary.com/danzaburou/image/upload/v1749340030/hombre_aovq5v.png");
+}
+
+.buttonPhoto4::before {
+    background-image: url("https://res.cloudinary.com/danzaburou/image/upload/v1749340029/mujer_aslcky.png");
+}
+
+.buttonPhoto5::before {
+    background-image: url("https://res.cloudinary.com/danzaburou/image/upload/v1749340030/boy_dpn5l6.png");
+}
+
+.buttonPhoto1::after,
+.buttonPhoto2::after,
+.buttonPhoto3::after,
+.buttonPhoto4::after,
 .buttonPhoto5::after {
     content: "";
     position: absolute;
@@ -234,9 +186,38 @@
     z-index: -1;
 }
 
+.buttonPhoto1:hover::before,
+.buttonPhoto1:hover::after,
+.buttonPhoto2:hover::before,
+.buttonPhoto2:hover::after,
+.buttonPhoto3:hover::before,
+.buttonPhoto3:hover::after,
+.buttonPhoto4:hover::before,
+.buttonPhoto4:hover::after,
 .buttonPhoto5:hover::before,
 .buttonPhoto5:hover::after {
     opacity: 1;
+}
+
+.buttonText1,
+.buttonText2,
+.buttonText3,
+.buttonText4,
+.buttonText5 {
+    transition: transform 0.3s ease;
+    z-index: 1;
+    position: relative;
+}
+
+.categoryButton:hover .buttonText1,
+.categoryButton:hover .buttonText2 {
+    transform: translateY(250%);
+}
+
+.categoryButton:hover .buttonText3,
+.categoryButton:hover .buttonText4,
+.categoryButton:hover .buttonText5 {
+    transform: translateY(190%);
 }
 
 .categoryButton:hover {

@@ -25,12 +25,12 @@ export const Landing = () => {
                         {productosMock
                             .filter(
                                 (item) =>
-                                    typeof item.id_descuento_producto === "number" &&
-                                    item.id_descuento_producto > 20
+                                    typeof item.descuento_id === "number" &&  // CORREGIR
+                                    item.descuento_id > 20
                             )
                             .slice(0, 4).map((item) => (
                                 <div className={style.productCard}>
-                                    <img src={item.imagen} alt={`Producto ${item}`} />
+                                    <img src={item.image} alt={`Producto ${item}`} />
                                     <div className={style.productInfo}>
                                         <h3>{item.nombre}</h3>
                                         <p>{item.descripcion}</p>
@@ -38,7 +38,7 @@ export const Landing = () => {
                                         <div className={style.priceBlock}>
                                             <span className={style.originalPrice}>${item.precio.toLocaleString('es-AR')}</span>
                                             <span className={style.discountPrice}>
-                                                ${Math.floor(item.precio * ((100 - item.id_descuento_producto) / 100)).toLocaleString('es-AR')}
+                                                ${Math.floor(item.precio * ((100 - item.precio) / 100)).toLocaleString('es-AR')}  // CORREGIR
                                             </span>
                                         </div>
                                         {/*<span>${item.precio} ${Math.floor(item.precio * ((100-item.id_descuento_producto)/100))}</span>*/}
@@ -55,14 +55,14 @@ export const Landing = () => {
                     <div className={style.categoryGrid}>
                         {/* Primera fila (2 botones) */}
                         <div className={style.topRow}>
-                            <button className={style.categoryButton}>ZAPATILLAS</button>
-                            <button className={style.categoryButton}>CAMPERAS</button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto1}`}><p className={style.buttonText1}>ZAPATILLAS</p></button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto2}`}><p className={style.buttonText2}>CAMPERAS</p></button>
                         </div>
                         {/* Segunda fila (3 botones) */}
                         <div className={style.bottomRow}>
-                            <button className={`${style.categoryButton} ${style.buttonPhoto3}`}>HOMBRE</button>
-                            <button className={`${style.categoryButton} ${style.buttonPhoto4}`}>MUJER</button>
-                            <button className={`${style.categoryButton} ${style.buttonPhoto5}`}>NIÑOS</button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto3}`}><p className={style.buttonText3}>HOMBRE</p></button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto4}`}><p className={style.buttonText4}>MUJER</p></button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto5}`}><p className={style.buttonText5}>NIÑOS</p></button>
                         </div>
                     </div>
                 </div>

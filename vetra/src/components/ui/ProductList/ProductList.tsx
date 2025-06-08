@@ -12,7 +12,7 @@ export const ProductList = () => {
 
 
 
-    console.log("Valores de descuento:", productosMock.map(p => p.id_descuento_producto))
+    // console.log("Valores de descuento:", productosMock.map(p => p.id_descuento_producto))
 
     return (
         <div className={style.container}>
@@ -39,21 +39,21 @@ export const ProductList = () => {
 
             <div className={`${style.products} ${isGrid ? style.grid : style.list}`}>
                 {productosMock.map((item) => {
-                    const precioFinal = Math.floor(item.precio * (1 - item.id_descuento_producto / 100));
+                    const precioFinal = Math.floor(item.precio * (1 - item.precio / 100)); // CORREGIR
 
                     return (
                         <div
                             key={item.id}
                             className={`${style.productCard} ${isGrid ? style.gridCard : style.listCard}`}
                         >
-                            <img src={item.imagen} className={style.productImage} />
+                            <img src={item.image} className={style.productImage} />
 
                             {isGrid ? (
                                 <>
                                     <h3>{item.nombre}</h3>
                                     <p>{item.descripcion}</p>
                                     <div className={style.priceRow}>
-                                        {item.id_descuento_producto !== 0 ? (
+                                        {item.precio !== 0 ? ( // CORREGIR
                                             <>
                                                 <span className={style.originalPrice}>${item.precio.toLocaleString('es-AR')}</span>
                                                 <span className={style.discountPrice}>
@@ -81,7 +81,7 @@ export const ProductList = () => {
                                         </div>
                                     </div>
                                     <div className={style.priceBlock}>
-                                        {item.id_descuento_producto !== 0 ? (
+                                        {item.precio !== 0 ? ( // CORREGIR
                                             <>
                                                 <span className={style.originalPrice}>${item.precio.toLocaleString('es-AR')}</span>
                                                 <span className={style.discountPrice}>
