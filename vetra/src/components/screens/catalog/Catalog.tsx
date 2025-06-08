@@ -1,4 +1,4 @@
-import { Filter } from '../../ui/Filter/FIlter'
+import { Filter } from '../../ui/Filter/Filter'
 import { Footer } from '../../ui/Footer/Footer'
 import { Header } from '../../ui/Header/Header'
 import { ProductList } from '../../ui/ProductList/ProductList'
