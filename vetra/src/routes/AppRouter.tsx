@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { Catalog } from "../components/screens/catalog/Catalog"
 import { Cambios } from "../components/screens/footerPages/ayuda/Cambio/Cambios"
 import { ComoElegirTuTalle } from "../components/screens/footerPages/ayuda/ComoElegirTuTalle/ComoElegirTuTalle"
 import { DefensaDelConsumidor } from "../components/screens/footerPages/ayuda/DefensaDelConsumidor/DefensaDelConsumidor"
@@ -29,6 +30,11 @@ export const AppRouter = () => {
                 } />
                 <Route path="/signin" element={
                     <SingIn />
+                } />
+
+                // Catalogo y busqueda
+                <Route path="/search" element={
+                    <Catalog />
                 } />
 
                 // Footer: Ayuda

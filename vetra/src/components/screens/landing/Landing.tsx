@@ -1,3 +1,4 @@
+import { productosMock } from "../../../mock/productos.mock";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import style from "./Landing.module.css";
@@ -21,17 +22,30 @@ export const Landing = () => {
                 <div className={style.trendingProducts}>
                     <h2>LO MÁS VENDIDO</h2>
                     <div className={style.productGrid}>
-                        {[1, 2, 3, 4].map((item) => (
-                            <div key={item} className={style.productCard}>
-                                <img src={`/product-${item}.jpg`} alt={`Producto ${item}`} />
-                                <div className={style.productInfo}>
-                                    <h3>Producto {item}</h3>
-                                    <p>Categoría</p>
-                                    <span>$99.99</span>
-                                    <button>AÑADIR RÁPIDO</button>
+                        {productosMock
+                            .filter(
+                                (item) =>
+                                    typeof item.id_descuento_producto === "number" &&
+                                    item.id_descuento_producto > 20
+                            )
+                            .slice(0, 4).map((item) => (
+                                <div className={style.productCard}>
+                                    <img src={item.imagen} alt={`Producto ${item}`} />
+                                    <div className={style.productInfo}>
+                                        <h3>{item.nombre}</h3>
+                                        <p>{item.descripcion}</p>
+                                        <p><i>Precio con descuento:</i></p>
+                                        <div className={style.priceBlock}>
+                                            <span className={style.originalPrice}>${item.precio.toLocaleString('es-AR')}</span>
+                                            <span className={style.discountPrice}>
+                                                ${Math.floor(item.precio * ((100 - item.id_descuento_producto) / 100)).toLocaleString('es-AR')}
+                                            </span>
+                                        </div>
+                                        {/*<span>${item.precio} ${Math.floor(item.precio * ((100-item.id_descuento_producto)/100))}</span>*/}
+                                        <button>AÑADIR AL CARRITO</button>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
                     </div>
                 </div>
 
@@ -46,9 +60,9 @@ export const Landing = () => {
                         </div>
                         {/* Segunda fila (3 botones) */}
                         <div className={style.bottomRow}>
-                            <button className={style.categoryButton}>HOMBRE</button>
-                            <button className={style.categoryButton}>MUJER</button>
-                            <button className={style.categoryButton}>NIÑOS</button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto3}`}>HOMBRE</button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto4}`}>MUJER</button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto5}`}>NIÑOS</button>
                         </div>
                     </div>
                 </div>
@@ -57,7 +71,7 @@ export const Landing = () => {
                 <div className={style.promoBanner}>
                     <div className={style.promoContent}>
                         <h2>OFERTA POR TIEMPO LIMITADO</h2>
-                        <p>30% de descuento en todos los productos este fin de semana</p>
+                        <p>Mirá los productos que tenemos para vos este finde.</p>
                         <button className={style.ctaButton}>VER OFERTAS</button>
                     </div>
                 </div>
