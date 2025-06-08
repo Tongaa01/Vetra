@@ -85,7 +85,7 @@
 }
 
 .bottomRow {
-    height: 100px;
+    height: 120px;
     /* Altura para los 3 botones inferiores */
 }
 
@@ -103,6 +103,9 @@
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 0 1rem;
+    position: relative; /* Necesario para el z-index */
+    overflow: hidden; /* Para contener la imagen de fondo */
+    z-index: 1; /* Asegura que el texto esté sobre la imagen */
 }
 
 .topRow .categoryButton {
@@ -113,9 +116,132 @@
     height: 100%;
 }
 
+/* Cover foto HOMBRE */
+.buttonPhoto3 {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+.buttonPhoto3::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://res.cloudinary.com/danzaburou/image/upload/v1749340030/hombre_aovq5v.png");
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.buttonPhoto3::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.buttonPhoto3:hover::before,
+.buttonPhoto3:hover::after {
+    opacity: 1;
+}
+
+/* Cover foto MUJER */
+.buttonPhoto4 {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+.buttonPhoto4::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://res.cloudinary.com/danzaburou/image/upload/v1749340029/mujer_aslcky.png");
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.buttonPhoto4::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.buttonPhoto4:hover::before,
+.buttonPhoto4:hover::after {
+    opacity: 1;
+}
+
+/* Cover foto NIÑOS */
+.buttonPhoto5 {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+.buttonPhoto5::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://res.cloudinary.com/danzaburou/image/upload/v1749340030/boy_dpn5l6.png");
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.buttonPhoto5::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.buttonPhoto5:hover::before,
+.buttonPhoto5:hover::after {
+    opacity: 1;
+}
+
 .categoryButton:hover {
-    background-color: #141414;
     color: white;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
 }
 
 /* Trending Products */
@@ -141,6 +267,8 @@
 
 .productCard {
     background: white;
+    display: flex;
+    flex-direction: column;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -289,4 +417,31 @@
     .heroCarousel {
         height: 60vh;
     }
+}
+
+.originalPrice {
+    color: #999;
+    text-decoration: line-through;
+    font-size: 0.9em;
+}
+
+.discountPrice {
+    color: #141414;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.priceRow {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    align-items: center;
+}
+
+.priceRow {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
 }

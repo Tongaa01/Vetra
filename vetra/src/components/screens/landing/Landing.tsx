@@ -28,20 +28,24 @@ export const Landing = () => {
                                     typeof item.id_descuento_producto === "number" &&
                                     item.id_descuento_producto > 20
                             )
-                            .slice(0,4).map((item) => (
-                            <div className={style.productCard}>
-                                <img src={item.imagen} alt={`Producto ${item}`} />
-                                <div className={style.productInfo}>
-                                    <h3>{item.nombre}</h3>
-                                    <p>{item.categoria.map((cat)=>(
-                                        <p>{cat.nombre}</p>
-                                    ))}</p>
-                                    <p><i>Precio con descuento:</i></p>
-                                    <span>${item.precio} ${Math.floor(item.precio * ((100-item.id_descuento_producto)/100))}</span>
-                                    <button>AÑADIR AL CARRITO</button>
+                            .slice(0, 4).map((item) => (
+                                <div className={style.productCard}>
+                                    <img src={item.imagen} alt={`Producto ${item}`} />
+                                    <div className={style.productInfo}>
+                                        <h3>{item.nombre}</h3>
+                                        <p>{item.descripcion}</p>
+                                        <p><i>Precio con descuento:</i></p>
+                                        <div className={style.priceBlock}>
+                                            <span className={style.originalPrice}>${item.precio.toLocaleString('es-AR')}</span>
+                                            <span className={style.discountPrice}>
+                                                ${Math.floor(item.precio * ((100 - item.id_descuento_producto) / 100)).toLocaleString('es-AR')}
+                                            </span>
+                                        </div>
+                                        {/*<span>${item.precio} ${Math.floor(item.precio * ((100-item.id_descuento_producto)/100))}</span>*/}
+                                        <button>AÑADIR AL CARRITO</button>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
                     </div>
                 </div>
 
@@ -56,9 +60,9 @@ export const Landing = () => {
                         </div>
                         {/* Segunda fila (3 botones) */}
                         <div className={style.bottomRow}>
-                            <button className={style.categoryButton}>HOMBRE</button>
-                            <button className={style.categoryButton}>MUJER</button>
-                            <button className={style.categoryButton}>NIÑOS</button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto3}`}>HOMBRE</button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto4}`}>MUJER</button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto5}`}>NIÑOS</button>
                         </div>
                     </div>
                 </div>
