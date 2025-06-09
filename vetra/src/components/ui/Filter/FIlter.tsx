@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react"
 import { getAllCategories } from "../../../http/categorieRequest"
 import { getAllProducts } from "../../../http/productRequest"
+import { getAllSizes } from "../../../http/sizeRequest"
 import type { ICategories } from "../../../types/ICategories"
 import type { IProduct } from "../../../types/IProduct"
+import type { ISize } from "../../../types/ISize"
 
 export const Filter = () => {
     const [products, setProducts] = useState<IProduct[]>([])
     const [allProducts, setAllProducts] = useState<IProduct[]>([])
     const [categories, setCategories] = useState<ICategories[]>([])
+    const [sizes, setSizes] = useState<ISize[]>([])
     const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
     useEffect(() => {
@@ -22,8 +25,14 @@ export const Filter = () => {
             setCategories(all)
         }
 
+        const fetchSizes = async () => {
+            const all = await getAllSizes()
+            setSizes(all)
+        }
+
         fetchProducts()
         fetchCategories()
+        fetchSizes()
     }, [])
 
     const handleCategoryChange = (categoryName: string) => {
@@ -52,8 +61,18 @@ export const Filter = () => {
                 <div>
                     <h3>Precio</h3>
                     <ul>
-                        <li>Precio mayor</li>
-                        <li>Precio menor</li>
+                        <li>
+                            <label>
+                                <input type="checkbox" />
+                                Precio menor
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" />
+                                Precio mayor
+                            </label>
+                        </li>
                     </ul>
                 </div>
 
@@ -78,20 +97,17 @@ export const Filter = () => {
                 <div>
                     <h3>Talle</h3>
                     <ul>
-                        {["XS", "S", "M", "L", "XL", "XXL", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46"].map((talle) => (
-                            <li key={talle}>{talle}</li>
+                        {sizes.map((talle) => (
+                            <li id={talle.id}>
+                                <label>
+                                    <input type="checkbox" />
+                                    {talle.talle}
+                                </label>
+                            </li>
+
                         ))}
                     </ul>
                 </div>
-            </div>
-
-            <div>
-                <h2>Productos filtrados:</h2>
-                <ul>
-                    {products.map((p) => (
-                        <li key={p.id}>{p.nombre}</li>
-                    ))}
-                </ul>
             </div>
         </div>
     )

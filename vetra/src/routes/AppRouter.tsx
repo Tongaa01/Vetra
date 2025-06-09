@@ -12,7 +12,9 @@ import { Proposito } from "../components/screens/footerPages/vetra/Proposito/Pro
 import { TrabajaConNosotros } from "../components/screens/footerPages/vetra/TrabajaConNosotros/TrabajaConNosotros"
 import { Landing } from "../components/screens/landing/Landing"
 import { Login } from "../components/screens/login/LogIn"
+import { ProductView } from "../components/screens/productView/ProductView"
 import { SingIn } from "../components/screens/singin/SignIn"
+import ScrollToTop from "../functions/ScrollToTop/ScrollToTop"
 
 
 
@@ -20,6 +22,9 @@ import { SingIn } from "../components/screens/singin/SignIn"
 export const AppRouter = () => {
     return (
         <BrowserRouter>
+            
+            <ScrollToTop />
+
             <Routes>
                 // Landing, login y signin
                 <Route path="/" element={
@@ -35,6 +40,10 @@ export const AppRouter = () => {
                 // Catalogo y busqueda
                 <Route path="/search" element={
                     <Catalog />
+                } />
+
+                <Route path="/products/:id" element={
+                    <ProductView />
                 } />
 
                 // Footer: Ayuda

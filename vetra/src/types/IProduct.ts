@@ -1,4 +1,5 @@
 import type { ICategories } from "./ICategories";
+import type { IDiscount } from "./IDiscount";
 import type { ISize } from "./ISize";
 
 
@@ -12,7 +13,7 @@ export interface IProduct {
     categoria: ICategories[],
     color: string[],
     marca: string,
-    image: string,
-    descuento_id: number | 0
+    imagen: string,
+    descuento: IDiscount | 0
     talles: ISize[],
 }

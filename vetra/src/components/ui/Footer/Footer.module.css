@@ -4,15 +4,18 @@
     padding: 40px 0;
     font-family: Arial, sans-serif;
     color: #333;
-    border-top:  1px solid #e0e0e0; /* Línea gris fina */
+    border-top: 1px solid #e0e0e0;
+    /* Línea gris fina */
 }
 
 .footerContainer {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between; /* <- esta es la clave */
-    align-items: flex-start; /* opcional, por si querés que todo quede arriba alineado */
+    justify-content: space-between;
+    /* <- esta es la clave */
+    align-items: flex-start;
+    /* opcional, por si querés que todo quede arriba alineado */
     padding: 0 20px;
 }
 
@@ -21,9 +24,22 @@
     flex: 1;
 }
 
+.vetraLogo {
+    width: 4vw;
+}
+
+.footerContact {
+    margin-top: 0.3rem;
+    display: flex;
+    font-size: 25px;
+    gap: 0.1rem;
+    color: #141414;
+
+}
+
 .rightColumnsWrapper {
     display: flex;
-    flex-direction: row-reverse;    
+    flex-direction: row-reverse;
     gap: 60px;
     /* Gap between Ayuda and Vetra columns */
 }
@@ -69,4 +85,9 @@
     .footerTitle {
         margin-bottom: 15px;
     }
+
+    .vetraLogo {
+        width: 6vh;
+    }
+
 }

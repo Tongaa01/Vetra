@@ -1,10 +1,47 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { productosMock } from "../../../mock/productos.mock";
+import { getAllCategories } from "../../../http/categorieRequest";
+import { getAllDiscounts } from "../../../http/discountRequest";
+import { getAllProducts } from "../../../http/productRequest";
+import type { ICategories } from "../../../types/ICategories";
+import type { IDiscount } from "../../../types/IDiscount";
+import type { IProduct } from "../../../types/IProduct";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import style from "./Landing.module.css";
 
 export const Landing = () => {
+
+    const [products, setProducts] = useState<IProduct[]>([])
+    const [categories, setCategories] = useState<ICategories[]>([])
+    const [discounts, setDiscounts] = useState<IDiscount[]>([])
+
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+
+            const allProducts = await getAllProducts()
+            setProducts(allProducts)
+        }
+
+        const fetchCategories = async () => {
+
+            const allCategories = await getAllCategories()
+            setCategories(allCategories)
+        }
+
+        const fetchDiscounts = async () => {
+
+            const allDiscounts = await getAllDiscounts()
+            setDiscounts(allDiscounts)
+        }
+
+
+        fetchProducts()
+        fetchCategories()
+        fetchDiscounts()
+
+    }, [])
 
     const navigate = useNavigate()
 
@@ -17,38 +54,48 @@ export const Landing = () => {
                 <div className={style.heroCarousel}>
                     <div className={style.carouselItem}>
                         <div>
-                            <img src="../../../../public/carousel.png" alt="Nueva Colección" />
+                            <img src="https://res.cloudinary.com/danzaburou/image/upload/v1749489285/carousel_mvieps.png" alt="Nueva Colección" />
                         </div>
                     </div>
                 </div>
 
                 {/* Productos destacados */}
                 <div className={style.trendingProducts}>
-                    <h2>LO MÁS VENDIDO</h2>
+                    <h2>OFERTAS DESTACADAS</h2>
                     <div className={style.productGrid}>
-                        {productosMock
+                        {products
                             .filter(
-                                (item) =>
-                                    typeof item.descuento_id === "number" &&  // CORREGIR
-                                    item.descuento_id > 0
-                            )
-                            .slice(0, 4).map((item) => (
-                                <div className={style.productCard}>
-                                    <img src={item.image} alt={`Producto ${item}`} />
+                                (item): item is IProduct & { descuento: IDiscount } =>
+                                    item.descuento !== 0 && item.descuento.descuento > 15
+                            ).slice(0, 4)
+                            .map((item) => (
+                                <div className={style.productCard} key={item.id} onClick={() => navigate(`/products/${item.id}`)}>
+                                    <img src={item.imagen} alt={`Producto ${item.nombre}`} />
                                     <div className={style.productInfo}>
                                         <h3>{item.nombre}</h3>
-                                        <p>{item.descripcion}</p>
                                         <div className={style.priceBlock}>
-                                            <span className={style.originalPrice}>${item.precio.toLocaleString('es-AR')}</span>
+                                            <div style={{ display: "flex", flexDirection: "row", gap: "0.5rem" }}>
+                                                <span className={style.originalPrice}>
+                                                    ${item.precio.toLocaleString('es-AR')}
+                                                </span>
+                                                <span className={style.discountNote}>
+                                                    -{item.descuento.descuento}% OFF
+                                                </span>
+
+                                            </div>
                                             <span className={style.discountPrice}>
-                                                ${Math.floor(item.precio * ((100 - item.descuento_id) / 100)).toLocaleString('es-AR')}
+                                                ${Math.floor(item.precio * ((100 - item.descuento.descuento) / 100)).toLocaleString('es-AR')}
                                             </span>
                                         </div>
-                                        {/*<span>${item.precio} ${Math.floor(item.precio * ((100-item.id_descuento_producto)/100))}</span>*/}
-                                        <button>AÑADIR AL CARRITO</button>
+                                        <button onClick={(e) => {
+                                            e.stopPropagation();
+                                            console.log("Producto añadido al carrito:", item.nombre);
+                                        }}>AÑADIR AL CARRITO</button>
                                     </div>
                                 </div>
                             ))}
+
+
                     </div>
                 </div>
 
@@ -75,7 +122,7 @@ export const Landing = () => {
                     <div className={style.promoContent}>
                         <h2>OFERTA POR TIEMPO LIMITADO</h2>
                         <p>Mirá los productos que tenemos para vos este finde.</p>
-                        <button className={style.ctaButton} onClick={()=> navigate("/search/offers")}>VER OFERTAS</button>
+                        <button className={style.ctaButton} onClick={() => navigate("/search/offers")}>VER OFERTAS</button>
                     </div>
                 </div>
 

@@ -12,7 +12,7 @@
 .heroCarousel {
     position: relative;
     width: 100%;
-    height: 80vh;
+    height: auto;
     overflow: hidden;
 }
 
@@ -301,7 +301,7 @@
 
 /* Promo Banner */
 .promoBanner {
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('./../../../../public/banner_add2.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://res.cloudinary.com/danzaburou/image/upload/v1749489289/banner_add2_kshmro.jpg');
     background-size: cover;
     background-position: center;
     height: 400px;
@@ -386,7 +386,18 @@
     .carouselContent h2 {
         font-size: 1.5rem;
     }
+
+    .categoryButton:hover .buttonText1,
+    .categoryButton:hover .buttonText2,
+    .categoryButton:hover .buttonText3,
+    .categoryButton:hover .buttonText4,
+    .categoryButton:hover .buttonText5 {
+        transform: translateY(170%);
+    }
 }
+
+
+
 
 @media (max-width: 480px) {
     .productGrid {
@@ -398,10 +409,23 @@
     }
 }
 
+.priceBlock {
+    font-size: large;
+    display: flex;
+    flex-direction: column;
+}
+
+.discountNote {
+    gap: 10rem;
+    color: #999;
+    font-size: medium;
+}
+
 .originalPrice {
     color: #999;
     text-decoration: line-through;
     font-size: 0.9em;
+    font-weight: lighter !important;
 }
 
 .discountPrice {

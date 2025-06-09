@@ -11,7 +11,7 @@ export const ComoElegirTuTalle = () => {
             <Header />
             <div className={style.sizeGuideContainer}>
                 <button onClick={() => navigate('/')} className={style.backButton}>
-                    ← Volver al Inicio
+                    ← Inicio
                 </button>
 
                 <div className={style.content}>
