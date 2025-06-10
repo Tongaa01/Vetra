@@ -43,6 +43,7 @@ export const createProducts=async(newProduct:IProduct)=>{
 }
 export const updateProduct=async(updatedProduct:IProduct)=>{
     try {
+        console.log(`Bearer ${getLocalToken()}`)
         const response=await axios.put(`${baseURL}/${updatedProduct.id}`,updatedProduct,{headers:{"Authorization":`Bearer ${getLocalToken()}`}})
         if(response){
             return response.data

@@ -71,6 +71,13 @@ export const Filter: FC = () => {
         }
     }, [searchParams])
 
+    const handleOrderChange = (value: "menor" | "mayor") => {
+        const newParams = new URLSearchParams(searchParams.toString())
+        newParams.set("precio", value)
+        setSearchParams(newParams)
+    }
+
+
 
     const handleCategoryChange = (categoryName: string) => {
         const alreadySelected = selectedCategories.includes(categoryName)
@@ -103,8 +110,11 @@ export const Filter: FC = () => {
                             <label>
                                 <input
                                     type="radio"
-                                    onClick={() => handleParamChange("precio", "menor")}
+                                    name="orden"
+                                    checked={searchParams.get("precio") === "menor"}
+                                    onChange={() => handleOrderChange("menor")}
                                 />
+
                                 Precio menor
                             </label>
                         </li>
@@ -112,8 +122,11 @@ export const Filter: FC = () => {
                             <label>
                                 <input
                                     type="radio"
-                                    onClick={() => handleParamChange("precio", "mayor")}
+                                    name="orden"
+                                    checked={searchParams.get("precio") === "mayor"}
+                                    onChange={() => handleOrderChange("mayor")}
                                 />
+
                                 Precio mayor
                             </label>
                         </li>

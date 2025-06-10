@@ -10,7 +10,7 @@ export const Catalog = () => {
         <div>
             <Header />
             <div className={style.catalogOrganizer}>
-                <div style={{ width: "20vw", boxShadow: "0 2px 8px #0000001a", paddingLeft: "0.5rem" }}>
+                <div style={{ width: "20vw", paddingLeft: "0.5rem" }}>
                     <Filter/>
                 </div>
                 <div style={{ width: "80vw" }}>

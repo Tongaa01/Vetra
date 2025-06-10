@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Cart } from "../components/screens/cart/Cart"
 import { Catalog } from "../components/screens/catalog/Catalog"
+import { Checkout } from "../components/screens/checkout/Checkout"
 import { Cambios } from "../components/screens/footerPages/ayuda/Cambio/Cambios"
 import { ComoElegirTuTalle } from "../components/screens/footerPages/ayuda/ComoElegirTuTalle/ComoElegirTuTalle"
 import { DefensaDelConsumidor } from "../components/screens/footerPages/ayuda/DefensaDelConsumidor/DefensaDelConsumidor"
@@ -49,6 +50,9 @@ export const AppRouter = () => {
                 // Carrito y checkout
                 <Route path="/cart" element={
                     <Cart />
+                } />
+                <Route path="/checkout" element={
+                    <Checkout />
                 } />
 
                 // Footer: Ayuda
