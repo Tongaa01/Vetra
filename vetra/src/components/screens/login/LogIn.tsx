@@ -4,37 +4,41 @@ import { authRequest } from "../../../http/auth/authRequest"
 import { tokenIsExpired } from "../../../services/jwtService"
 import type { ILoginBody } from "../../../types/ILoginBody"
 import { Button } from "../../ui/Button/Button"
-import { Footer } from "../../ui/Footer/Footer"
 import styles from "./Login.module.css"
-
-
 
 const initialValues = {
     email: "",
     password: ""
 }
+
 export const Login = () => {
     const [logInInfo, setLogInInfo] = useState<ILoginBody>(initialValues)
     const [errorMessage, setErrorMessage] = useState<string>("")
+    const navigate = useNavigate()
 
     const handleChangeInputs = (event: ChangeEvent<HTMLInputElement>) => {
-        const { value, name } = event.target
-        setLogInInfo((prev) => ({ ...prev, [`${name}`]: value }))
+        const { name, value } = event.target
+        setLogInInfo(prev => ({ ...prev, [name]: value }))
     }
-    const navigate = useNavigate()
+
     const handleLogin = async () => {
-        const token = await authRequest(logInInfo)
-        if (token) {
-            localStorage.setItem('token', token)
-            navigate("/")
+        if (!logInInfo.email || !logInInfo.password) {
+            setErrorMessage("Por favor completá todos los campos")
             return
         }
-        setErrorMessage("Contraseña o Email invalidos")
+
+        const token = await authRequest(logInInfo)
+
+        if (token) {
+            localStorage.setItem("token", token)
+            navigate("/")
+        } else {
+            setErrorMessage("Email o contraseña incorrectos")
+        }
     }
 
-
     useEffect(() => {
-        const token = localStorage.getItem('token')
+        const token = localStorage.getItem("token")
         if (token && !tokenIsExpired(token)) {
             navigate("/")
         } else {
@@ -42,41 +46,57 @@ export const Login = () => {
         }
     }, [])
 
-
-
     return (
         <div className={styles.mainContainer}>
             <div className={styles.contentContainer}>
                 <div className={styles.imageContainer}>
-                    <img className={styles.image} src="https://res.cloudinary.com/danzaburou/image/upload/v1749489285/vetra_banner_wflubd.png" />
+                    <img
+                        className={styles.image}
+                        src="https://res.cloudinary.com/danzaburou/image/upload/v1749489285/vetra_banner_wflubd.png"
+                        alt="Vetra"
+                    />
                 </div>
                 <div className={styles.logInComponent}>
                     <div className={styles.logInComponent_content}>
-                        {errorMessage !== "" ? <div className={styles.errorMessage}>{errorMessage}</div> : <div></div>}
-                        <div className={styles.logInComponent_content_inputs}>
-                            <div className={styles.inputComponent}>
-                                <p>Email</p>
-                                <input placeholder="example@gmail.com" className={styles.inpuntStyles} type="text" name="email" onChange={handleChangeInputs} />
-                            </div>
-                            <div className={styles.inputComponent}>
-                                <p>Contraseña</p>
-                                <input placeholder="examplepassword" className={styles.inpuntStyles} type="password" name="password" onChange={handleChangeInputs} />
-                            </div>
-                        </div>
-                        <div className={styles.logInComponent_content_button}>
-                            <Button text="Iniciar Sesion" action={handleLogin} styleSet={true} />
+                        <div className={styles.errorMessage}>
+                            {errorMessage || " "} {/* Espacio fijo para no mover el layout */}
                         </div>
 
+                        <div className={styles.logInComponent_content_inputs}>
+                            <div className={styles.inputComponent}>
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    placeholder="Correo electrónico"
+                                    className={styles.inpuntStyles}
+                                    type="text"
+                                    onChange={handleChangeInputs}
+                                />
+                            </div>
+
+                            <div className={styles.inputComponent}>
+                                <label htmlFor="password">Contraseña</label>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    placeholder="Contraseña"
+                                    className={styles.inpuntStyles}
+                                    type="password"
+                                    onChange={handleChangeInputs}
+                                />
+                            </div>
+                        </div>
+
+                        <div className={styles.logInComponent_content_button}>
+                            <Button text="Iniciar sesión" action={handleLogin} styleSet={true} />
+                        </div>
                     </div>
-                    <div onClick={() => {
-                        navigate("/signin")
-                    }}>
+
+                    <div onClick={() => navigate("/signin")}>
                         <p className={styles.navText}>No tengo cuenta</p>
                     </div>
                 </div>
-            </div>
-            <div>
-                <Footer />
             </div>
         </div>
     )
