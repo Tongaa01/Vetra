@@ -11,12 +11,12 @@ export const Cart = () => {
             price: 8000
         },{
             id: 2,
-            description: "Envío estándar",
-            price: 8000
+            description: "Envío express",
+            price: 17000
         },{
             id: 3,
-            description: "Envío estándar",
-            price: 8000
+            description: "Retiro en el local",
+            price: 0
         }
     ]
 
