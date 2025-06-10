@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getProductById } from "../../../http/productRequest";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+import { getProductById, updateProduct } from "../../../http/productRequest";
+import { useCartStore } from "../../../store/useCartStore";
+import type { ICartBody } from "../../../types/ICartBody";
 import type { IProduct } from "../../../types/IProduct";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
@@ -11,17 +14,22 @@ export const ProductView = () => {
     const [quantity, setQuantity] = useState(1);
     const [selectedSize, setSelectedSize] = useState("");
     const { id } = useParams();
+    const setCart = useCartStore((state) => state.setActiveCart)
+    let activeCart = useCartStore((state) => state.activeCart)
+
+    const navigate = useNavigate()
+
+    const fetchProduct = async () => {
+        if (!id) return;
+        const prod = await getProductById(id);
+        setProduct(prod);
+    };
 
     useEffect(() => {
-        const fetchProduct = async () => {
-            if (!id) return;
-            const prod = await getProductById(id);
-            setProduct(prod);
-        };
         fetchProduct();
     }, [id]);
 
-    const handleAddToCart = () => {
+    const handleAddToCart = async () => {
         if (!product || quantity > product.stock) return;
         if (!selectedSize) return alert("Seleccioná un talle antes de continuar.");
 
@@ -32,6 +40,60 @@ export const ProductView = () => {
             cantidad: quantity,
             talle: selectedSize,
         });
+
+        if (product) {
+            await updateProduct({ ...product, stock: updatedStock })
+            fetchProduct()
+        }
+
+        const newCartItem: ICartBody = {
+            product: product,
+            amount: quantity,
+            size: selectedSize,
+            price: discountedPrice ? discountedPrice : product.precio
+        }
+
+        activeCart = [...activeCart, newCartItem]
+
+        setCart(activeCart)
+
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Añadido al carrito con éxito",
+            showConfirmButton: false,
+            timer: 1500
+        });
+
+        navigate("/search")
+    };
+
+    const handleBuy = () => {
+        if (!product || quantity > product.stock) return;
+        if (!selectedSize) return alert("Seleccioná un talle antes de continuar.");
+
+        const updatedStock = product.stock - quantity;
+        setProduct({ ...product, stock: updatedStock });
+        console.log("Producto agregado al carrito:", {
+            producto: product.nombre,
+            cantidad: quantity,
+            talle: selectedSize,
+        });
+
+        if (product) updateProduct({ ...product, stock: updatedStock })
+
+        const newCartItem: ICartBody = {
+            product: product,
+            amount: quantity,
+            size: selectedSize,
+            price: discountedPrice ? discountedPrice : product.precio
+        }
+
+        activeCart = [...activeCart, newCartItem]
+
+        setCart(activeCart)
+
+        navigate("/cart")
     };
 
     const formatPrice = (price: number | undefined) => {
@@ -87,7 +149,7 @@ export const ProductView = () => {
                         </div>
                         <div className={style.buttonGroup}>
                             <button className={style.cartButton} onClick={handleAddToCart}>Agregar al carrito</button>
-                            <button className={style.buyButton}>Comprar ahora</button>
+                            <button className={style.buyButton} onClick={handleBuy}>Comprar ahora</button>
                         </div>
                     </div>
                 </div>
