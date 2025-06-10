@@ -10,7 +10,7 @@ export interface IProduct {
     descripcion: string,
     precio: number,
     stock: number,
-    categoria: ICategories[],
+    categorias: ICategories[],
     color: string[],
     marca: string,
     imagen: string,

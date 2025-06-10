@@ -7,15 +7,16 @@ const baseURL=`${APIURL}/productos`
 
 
 
-export const getAllProducts=async()=>{
+export const getAllProducts=async():Promise<IProduct[]>=>{
     try {
         const response=await axios.get(`${baseURL}`)
         if(response){
             return response.data
         }
-        return null
+        throw new Error("Ocurrio un error durante la obtencion de todos los productos")
     } catch (error) {
         console.log("Ocurrio un error durante la obtencion de todos los productos: ",error)
+        return []
     }
 }
 export const getProductById=async(id:string)=>{
