@@ -68,7 +68,7 @@ export const ProductList = () => {
     }, [searchParams])
 
     products.forEach((producto) => {
-        if (producto.descuento !== 0) {
+        if (producto.descuento.descuento !== 0) {
             //console.log(`Producto: ${producto.nombre}
             //Descuento: ${producto.descuento.descuento}%`);
         } else {
@@ -103,7 +103,7 @@ export const ProductList = () => {
 
             <div className={`${style.products} ${isGrid ? style.grid : style.list}`} >
                 {products.map((item) => {
-                    const precioFinal = Math.floor(item.precio * (1 - item.precio / 100)); // CORREGIR
+                    const precioFinal = Math.floor(item.precio * (1 - item.descuento.descuento / 100));
 
                     return (
                         <div onClick={() => navigate(`/products/${item.id}`)}
@@ -116,7 +116,7 @@ export const ProductList = () => {
                                 <>
                                     <h3>{item.nombre}</h3>
                                     <div className={style.priceRow}>
-                                        {item.precio !== 0 ? ( // CORREGIR
+                                        {item.descuento.descuento !== 0 ? (
                                             <>
                                                 <span className={style.originalPrice}>${Number(item.precio).toLocaleString('es-AR')}</span>
                                                 <span className={style.discountPrice}>

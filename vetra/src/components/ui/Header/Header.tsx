@@ -25,12 +25,14 @@ export const Header = () => {
 
             <div className={`${style.headerComponents} ${menuOpen ? style.menuOpen : ""}`}>
                 <div className={style.headerCategories}>
-                    <button onClick={() => navigate("/search/featured")}>DESTACADOS</button>
-                    <button onClick={() => navigate("/search/man")}>Hombre</button>
-                    <button onClick={() => navigate("/search/woman")}>Mujer</button>
-                    <button onClick={() => navigate("/search/kids")}>Niños</button>
-                    <button onClick={() => navigate("/search/shoes")}>Zapatillas</button>
-                    <button onClick={() => navigate("/search/jackets")}>Camperas</button>
+
+                    {/* CORREGIR */}
+                    <button onClick={() => navigate("/search")}>DESTACADOS</button> 
+                    <button onClick={() => navigate("/search")}>Hombre</button>
+                    <button onClick={() => navigate("/search")}>Mujer</button>
+                    <button onClick={() => navigate("/search")}>Niños</button>
+                    <button onClick={() => navigate("/search")}>Zapatillas</button>
+                    <button onClick={() => navigate("/search")}>Camperas</button>
                 </div>
 
                 <div className={style.headerShoppingCart}>
@@ -38,8 +40,8 @@ export const Header = () => {
                 </div>
 
                 <div className={style.headerAccount}>
-                    <button>Log-In</button>
-                    <button>Sign In</button>
+                    <button onClick={() => navigate("/login")}>Log-In</button>
+                    <button onClick={() => navigate("/signin")}>Sign In</button>
                 </div>
             </div>
         </div>

@@ -66,7 +66,7 @@ export const Landing = () => {
                         {products
                             .filter(
                                 (item): item is IProduct & { descuento: IDiscount } =>
-                                    item.descuento !== 0 && item.descuento.descuento > 15
+                                    item.descuento.descuento !== 0 && item.descuento.descuento > 15
                             ).slice(0, 4)
                             .map((item) => (
                                 <div className={style.productCard} key={item.id} onClick={() => navigate(`/products/${item.id}`)}>
