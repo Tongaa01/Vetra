@@ -1,31 +1,33 @@
 import { useEffect, useState, type FC } from "react"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { getAllCategories } from "../../../http/categorieRequest"
 import { getAllProducts } from "../../../http/productRequest"
 import { getAllSizes } from "../../../http/sizeRequest"
 import type { ICategories } from "../../../types/ICategories"
 import type { IProduct } from "../../../types/IProduct"
 import type { ISize } from "../../../types/ISize"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import style from "./Filter.module.css"
 
-
-
-export const Filter= () => {
-
-    const [searchParams, setSearchParams] = useSearchParams();
-
+export const Filter: FC = () => {
+    const [searchParams, setSearchParams] = useSearchParams()
     const [products, setProducts] = useState<IProduct[]>([])
     const [allProducts, setAllProducts] = useState<IProduct[]>([])
     const [categories, setCategories] = useState<ICategories[]>([])
     const [sizes, setSizes] = useState<ISize[]>([])
     const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+    const [openSection, setOpenSection] = useState<string | null>(null)
 
-    const navigate=useNavigate()
+    const navigate = useNavigate()
+
+    const toggleSection = (section: string) => {
+        setOpenSection(prev => (prev === section ? null : section))
+    }
 
     const handleParamChange = (paramName: string, paramValue: string) => {
         let found = false
         searchParams.forEach((el) => {
-            if (el == paramValue) {
-                searchParams.delete(paramName,paramValue)
+            if (el === paramValue) {
+                searchParams.delete(paramName, paramValue)
                 found = true
             }
         })
@@ -34,7 +36,6 @@ export const Filter= () => {
         }
         navigate(`/search?${searchParams.toString()}`)
     }
-
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -56,8 +57,20 @@ export const Filter= () => {
         fetchProducts()
         fetchCategories()
         fetchSizes()
-
     }, [])
+
+    useEffect(() => {
+        const precioParam = searchParams.get("precio")
+
+        if (precioParam === "mayor") {
+            const ordenado = [...products].sort((a, b) => b.precio - a.precio)
+            setProducts(ordenado)
+        } else if (precioParam === "menor") {
+            const ordenado = [...products].sort((a, b) => a.precio - b.precio)
+            setProducts(ordenado)
+        }
+    }, [searchParams])
+
 
     const handleCategoryChange = (categoryName: string) => {
         const alreadySelected = selectedCategories.includes(categoryName)
@@ -78,35 +91,43 @@ export const Filter= () => {
     }
 
     return (
-        <div>
-            <div>
-                <h2>ORDENAR POR</h2>
-
-                <div>
-                    <h3>Precio</h3>
-                    <ul>
+        <div className={style.filterWrapper}>
+            <div className={style.filterSection}>
+                <h3 onClick={() => toggleSection("ordenar")} className={style.filterTitle}>
+                    Ordenar por
+                    <span className={style.arrow}>{openSection === "ordenar" ? "▲" : "▼"}</span>
+                </h3>
+                {openSection === "ordenar" && (
+                    <ul className={style.filterList}>
                         <li>
                             <label>
-                                <input type="checkbox" onClick={() => {
-                                    handleParamChange("precio", "menor")
-                                }} />
+                                <input
+                                    type="radio"
+                                    onClick={() => handleParamChange("precio", "menor")}
+                                />
                                 Precio menor
                             </label>
                         </li>
                         <li>
                             <label>
-                                <input type="checkbox" onClick={() => {
-                                    handleParamChange("precio", "mayor")
-                                }} />
+                                <input
+                                    type="radio"
+                                    onClick={() => handleParamChange("precio", "mayor")}
+                                />
                                 Precio mayor
                             </label>
                         </li>
                     </ul>
-                </div>
+                )}
+            </div>
 
-                <div>
-                    <h3>Categoría</h3>
-                    <ul>
+            <div className={style.filterSection}>
+                <h3 onClick={() => toggleSection("categoria")} className={style.filterTitle}>
+                    Categoría
+                    <span className={style.arrow}>{openSection === "categoria" ? "▲" : "▼"}</span>
+                </h3>
+                {openSection === "categoria" && (
+                    <ul className={style.filterList}>
                         {categories.map((item) => (
                             <li key={item.id}>
                                 <label>
@@ -114,33 +135,40 @@ export const Filter= () => {
                                         type="checkbox"
                                         checked={selectedCategories.includes(item.nombre)}
                                         onChange={() => handleCategoryChange(item.nombre)}
-                                        onClick={() => {
+                                        onClick={() =>
                                             handleParamChange("categoria", item.nombre)
-                                        }}
+                                        }
                                     />
                                     {item.nombre}
                                 </label>
                             </li>
                         ))}
                     </ul>
-                </div>
+                )}
+            </div>
 
-                <div>
-                    <h3>Talle</h3>
-                    <ul>
+            <div className={style.filterSection}>
+                <h3 onClick={() => toggleSection("talle")} className={style.filterTitle}>
+                    Talle
+                    <span className={style.arrow}>{openSection === "talle" ? "▲" : "▼"}</span>
+                </h3>
+                {openSection === "talle" && (
+                    <ul className={style.filterList}>
                         {sizes.map((talle) => (
-                            <li id={talle.id}>
+                            <li key={talle.id}>
                                 <label>
-                                    <input type="checkbox" onClick={() => {
-                                        handleParamChange("talle", talle.talle)
-                                    }} />
+                                    <input
+                                        type="checkbox"
+                                        onClick={() =>
+                                            handleParamChange("talle", talle.talle)
+                                        }
+                                    />
                                     {talle.talle}
                                 </label>
                             </li>
-
                         ))}
                     </ul>
-                </div>
+                )}
             </div>
         </div>
     )

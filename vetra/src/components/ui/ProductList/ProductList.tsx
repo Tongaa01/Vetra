@@ -30,21 +30,36 @@ export const ProductList = () => {
 
         //Filtrado creado con la ayuda de chatgpt
 
-        const filteredProducts = allProducts.filter((product) => {
-            // Coincidencia por categoría (por nombre)
+        const orden = searchParams.get('orden') // 'mayor', 'menor' o null
+
+        let filteredProducts = allProducts.filter((product) => {
             const matchesCategory =
                 cateFilters.length === 0 ||
                 product.categorias.some((cat) => cateFilters.includes(cat.nombre));
 
-            // Coincidencia por talle (por talle string)
             const matchesSize =
                 sizeFilters.length === 0 ||
                 product.talles.some((talle) => sizeFilters.includes(talle.talle));
-            
+
             return matchesCategory && matchesSize;
         });
-        
+
+        if (orden === 'menor') {
+            filteredProducts.sort((a, b) => {
+                const precioA = a.precio * (1 - a.descuento.descuento / 100);
+                const precioB = b.precio * (1 - b.descuento.descuento / 100);
+                return precioA - precioB;
+            });
+        } else if (orden === 'mayor') {
+            filteredProducts.sort((a, b) => {
+                const precioA = a.precio * (1 - a.descuento.descuento / 100);
+                const precioB = b.precio * (1 - b.descuento.descuento / 100);
+                return precioB - precioA;
+            });
+        }
+
         setProducts(filteredProducts)
+
     }
 
     const fetchCategories = async () => {
@@ -101,76 +116,78 @@ export const ProductList = () => {
                 </button>
             </div>
 
-            <div className={`${style.products} ${isGrid ? style.grid : style.list}`} >
-                {products.map((item) => {
-                    const precioFinal = Math.floor(item.precio * (1 - item.descuento.descuento / 100));
+            {products.length == 0
+                ? <h2>No hay elementos disponibles</h2>
+                : <div className={`${style.products} ${isGrid ? style.grid : style.list}`} >
+                    {products.map((item) => {
+                        const precioFinal = Math.floor(item.precio * (1 - item.descuento.descuento / 100));
 
-                    return (
-                        <div onClick={() => navigate(`/products/${item.id}`)}
-                            key={item.id}
-                            className={`${style.productCard} ${isGrid ? style.gridCard : style.listCard}`}
-                        >
-                            <img src={item.imagen} className={style.productImage} />
+                        return (
+                            <div onClick={() => navigate(`/products/${item.id}`)}
+                                key={item.id}
+                                className={`${style.productCard} ${isGrid ? style.gridCard : style.listCard}`}
+                            >
+                                <img src={item.imagen} className={style.productImage} />
 
-                            {isGrid ? (
-                                <>
-                                    <h3>{item.nombre}</h3>
-                                    <div className={style.priceRow}>
-                                        {item.descuento.descuento !== 0 ? (
-                                            <>
-                                                <span className={style.originalPrice}>${Number(item.precio).toLocaleString('es-AR')}</span>
-                                                <span className={style.discountPrice}>
-                                                    ${precioFinal.toLocaleString('es-AR')}
-                                                </span>
-                                            </>
-                                        ) : (
-                                            <span className={style.discountPrice}>${item.precio.toLocaleString('es-AR')}</span>
-                                        )}
-
-                                    </div>
-                                    <div className={style.actionsGrid}>
-                                        <button className={style.buyButton} onClick={(e) => {
-                                            e.stopPropagation();
-                                            console.log("Producto añadido al carrito:", item.nombre);
-                                        }}>Comprar</button>
-                                        <button className={style.cartButton}>Añadir al carrito</button>
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <div className={style.productDetails}>
+                                {isGrid ? (
+                                    <>
                                         <h3>{item.nombre}</h3>
-                                        <p>{item.descripcion}</p>
-                                        <div className={style.actions}>
+                                        <div className={style.priceRow}>
+                                            {item.descuento.descuento !== 0 ? (
+                                                <>
+                                                    <span className={style.originalPrice}>${Number(item.precio).toLocaleString('es-AR')}</span>
+                                                    <span className={style.discountPrice}>
+                                                        ${precioFinal.toLocaleString('es-AR')}
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <span className={style.discountPrice}>${item.precio.toLocaleString('es-AR')}</span>
+                                            )}
+
+                                        </div>
+                                        <div className={style.actionsGrid}>
                                             <button className={style.buyButton} onClick={(e) => {
                                                 e.stopPropagation();
-                                                console.log("Producto comprado:", item.nombre);
-                                            }}>Comprar</button>
-                                            <button className={style.cartButton} onClick={(e) => {
-                                                e.stopPropagation();
                                                 console.log("Producto añadido al carrito:", item.nombre);
-                                            }}>Añadir al carrito</button>
+                                            }}>Comprar</button>
+                                            <button className={style.cartButton}>Añadir al carrito</button>
                                         </div>
-                                    </div>
-                                    <div className={style.priceBlock}>
-                                        {item.precio !== 0 ? ( // CORREGIR
-                                            <>
-                                                <span className={style.originalPrice}>${item.precio.toLocaleString('es-AR')}</span>
-                                                <span className={style.discountPrice}>
-                                                    ${precioFinal.toLocaleString('es-AR')}
-                                                </span>
-                                            </>
-                                        ) : (
-                                            <span className={style.discountPrice}>${item.precio.toLocaleString('es-AR')}</span>
-                                        )}
-                                    </div>
-                                </>
-                            )}
-                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className={style.productDetails}>
+                                            <h3>{item.nombre}</h3>
+                                            <p>{item.descripcion}</p>
+                                            <div className={style.actions}>
+                                                <button className={style.buyButton} onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    console.log("Producto comprado:", item.nombre);
+                                                }}>Comprar</button>
+                                                <button className={style.cartButton} onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    console.log("Producto añadido al carrito:", item.nombre);
+                                                }}>Añadir al carrito</button>
+                                            </div>
+                                        </div>
+                                        <div className={style.priceBlock}>
+                                            {item.precio !== 0 ? ( // CORREGIR
+                                                <>
+                                                    <span className={style.originalPrice}>${item.precio.toLocaleString('es-AR')}</span>
+                                                    <span className={style.discountPrice}>
+                                                        ${precioFinal.toLocaleString('es-AR')}
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <span className={style.discountPrice}>${item.precio.toLocaleString('es-AR')}</span>
+                                            )}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
 
-                    );
-                })}
-            </div>
+                        );
+                    })}
+                </div>}
 
         </div>
     )

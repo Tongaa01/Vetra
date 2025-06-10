@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import style from "./Header.module.css";
 import { useUserStore } from "../../../store/userStore";
+import style from "./Header.module.css";
 
 export const Header = () => {
     const navigate = useNavigate();
@@ -36,7 +36,7 @@ export const Header = () => {
                 </div>
 
                 <div className={style.headerShoppingCart}>
-                    <button><span className="material-icons">shopping_cart</span></button>
+                    <button onClick={()=> navigate("/cart")}><span className="material-icons">shopping_cart</span></button>
                 </div>
 
                 <div className={style.headerAccount}>

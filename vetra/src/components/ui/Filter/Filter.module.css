@@ -1,3 +1,52 @@
-* {
-    border:  1px solid #e0e0e0; /* Línea gris fina */
+
+.filterWrapper {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.15rem;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.filterSection {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.5rem;
+}
+
+.filterTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    color: #141414;
+    transition: color 0.2s ease;
+}
+
+.filterTitle:hover {
+    color: #007bff;
+}
+
+.arrow {
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+.filterList {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0.5rem;
+}
+
+.filterList li {
+    margin-bottom: 0.4rem;
+}
+
+.filterList input[type="checkbox"] {
+    margin-right: 0.5rem;
+    transform: scale(1.1);
+    cursor: pointer;
 }

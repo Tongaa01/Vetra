@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { Cart } from "../components/screens/cart/Cart"
 import { Catalog } from "../components/screens/catalog/Catalog"
 import { Cambios } from "../components/screens/footerPages/ayuda/Cambio/Cambios"
 import { ComoElegirTuTalle } from "../components/screens/footerPages/ayuda/ComoElegirTuTalle/ComoElegirTuTalle"
@@ -41,9 +42,13 @@ export const AppRouter = () => {
                 <Route path="/search" element={
                     <Catalog />
                 } />
-
                 <Route path="/products/:id" element={
                     <ProductView />
+                } />
+
+                // Carrito y checkout
+                <Route path="/cart" element={
+                    <Cart />
                 } />
 
                 // Footer: Ayuda
