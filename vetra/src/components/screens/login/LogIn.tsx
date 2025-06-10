@@ -37,6 +37,7 @@ export const Login = () => {
 
         if (token) {
             localStorage.setItem("token", token)
+            setLoggedUser(logInInfo.email)
             navigate("/")
         } else {
             setErrorMessage("Email o contraseña incorrectos")
