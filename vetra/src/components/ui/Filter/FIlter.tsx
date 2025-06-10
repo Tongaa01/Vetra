@@ -35,6 +35,7 @@ export const Filter= () => {
         navigate(`/search?${searchParams.toString()}`)
     }
 
+
     useEffect(() => {
         const fetchProducts = async () => {
             const all = await getAllProducts()

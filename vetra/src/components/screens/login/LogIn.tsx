@@ -6,6 +6,9 @@ import type { ILoginBody } from "../../../types/ILoginBody"
 import { Button } from "../../ui/Button/Button"
 import { Footer } from "../../ui/Footer/Footer"
 import styles from "./Login.module.css"
+import { useUserStore } from "../../../store/userStore"
+import type { IUser, ROLE } from "../../../types/IUser"
+import { getAllUsers } from "../../../http/userRequest"
 
 
 
@@ -14,6 +17,9 @@ const initialValues = {
     password: ""
 }
 export const Login = () => {
+    const setActiveUser = useUserStore((state) => state.setActiveUser)
+    const deleteUser = useUserStore((state) => state.deleteUser)
+
     const [logInInfo, setLogInInfo] = useState<ILoginBody>(initialValues)
     const [errorMessage, setErrorMessage] = useState<string>("")
 
@@ -26,11 +32,23 @@ export const Login = () => {
         const token = await authRequest(logInInfo)
         if (token) {
             localStorage.setItem('token', token)
+            await setLoggedUser(logInInfo.email)
             navigate("/")
             return
         }
         setErrorMessage("Contraseña o Email invalidos")
     }
+    const setLoggedUser = async (email: string): Promise<string|ROLE> => {
+        const users: IUser[] = await getAllUsers();
+        const user = users.find(user => user.email === email);
+
+        if (user) {
+            setActiveUser(user);
+            return user.rol;
+        }
+
+        return "NOT WORKING";
+    };
 
 
     useEffect(() => {

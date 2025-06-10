@@ -32,7 +32,6 @@ export const ProductList = () => {
 
         const filteredProducts = allProducts.filter((product) => {
             // Coincidencia por categoría (por nombre)
-            console.log(product)
             const matchesCategory =
                 cateFilters.length === 0 ||
                 product.categorias.some((cat) => cateFilters.includes(cat.nombre));
@@ -41,9 +40,10 @@ export const ProductList = () => {
             const matchesSize =
                 sizeFilters.length === 0 ||
                 product.talles.some((talle) => sizeFilters.includes(talle.talle));
-
+            
             return matchesCategory && matchesSize;
         });
+        
         setProducts(filteredProducts)
     }
 

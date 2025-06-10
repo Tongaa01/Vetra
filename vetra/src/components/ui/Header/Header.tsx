@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import style from "./Header.module.css";
+import { useUserStore } from "../../../store/userStore";
 
 export const Header = () => {
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
-
+    const activeUser=useUserStore((state) => state.actireUser)
     const toggleMenu = () => setMenuOpen(!menuOpen);
 
     return (
@@ -26,13 +27,12 @@ export const Header = () => {
             <div className={`${style.headerComponents} ${menuOpen ? style.menuOpen : ""}`}>
                 <div className={style.headerCategories}>
 
-                    {/* CORREGIR */}
                     <button onClick={() => navigate("/search")}>DESTACADOS</button> 
-                    <button onClick={() => navigate("/search")}>Hombre</button>
-                    <button onClick={() => navigate("/search")}>Mujer</button>
-                    <button onClick={() => navigate("/search")}>Niños</button>
-                    <button onClick={() => navigate("/search")}>Zapatillas</button>
-                    <button onClick={() => navigate("/search")}>Camperas</button>
+                    <button onClick={() => navigate("/search?categoria=Hombre")}>Hombre</button>
+                    <button onClick={() => navigate("/search?categoria=Mujer")}>Mujer</button>
+                    <button onClick={() => navigate("/search?categoria=Chicos")}>Niños</button>
+                    <button onClick={() => navigate("/search?categoria=Zapatillas")}>Zapatillas</button>
+                    <button onClick={() => navigate("/search?categoria=Camperas")}>Camperas</button>
                 </div>
 
                 <div className={style.headerShoppingCart}>
@@ -40,8 +40,13 @@ export const Header = () => {
                 </div>
 
                 <div className={style.headerAccount}>
-                    <button onClick={() => navigate("/login")}>Log-In</button>
-                    <button onClick={() => navigate("/signin")}>Sign In</button>
+                    {activeUser?
+                        activeUser.nombre:
+                        <div className={style.headerAccount}>
+                            <button onClick={() => navigate("/login")}>Log-In</button>
+                            <button onClick={() => navigate("/signin")}>Sign In</button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

@@ -105,14 +105,14 @@ export const Landing = () => {
                     <div className={style.categoryGrid}>
                         {/* Primera fila (2 botones) */}
                         <div className={style.topRow}>
-                            <button className={`${style.categoryButton} ${style.buttonPhoto1}`}><p className={style.buttonText1}>ZAPATILLAS</p></button>
-                            <button className={`${style.categoryButton} ${style.buttonPhoto2}`}><p className={style.buttonText2}>CAMPERAS</p></button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto1}`} onClick={() => navigate("/search?categoria=Zapatillas")}><p className={style.buttonText1}>ZAPATILLAS</p></button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto2}`} onClick={() => navigate("/search?categoria=Camperas")}><p className={style.buttonText2}>CAMPERAS</p></button>
                         </div>
                         {/* Segunda fila (3 botones) */}
                         <div className={style.bottomRow}>
-                            <button className={`${style.categoryButton} ${style.buttonPhoto3}`}><p className={style.buttonText3}>HOMBRE</p></button>
-                            <button className={`${style.categoryButton} ${style.buttonPhoto4}`}><p className={style.buttonText4}>MUJER</p></button>
-                            <button className={`${style.categoryButton} ${style.buttonPhoto5}`}><p className={style.buttonText5}>NIÑOS</p></button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto3}`} onClick={() => navigate("/search?categoria=Hombre")}><p className={style.buttonText3}>HOMBRE</p></button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto4}`} onClick={() => navigate("/search?categoria=Mujer")}><p className={style.buttonText4}>MUJER</p></button>
+                            <button className={`${style.categoryButton} ${style.buttonPhoto5}`} onClick={() => navigate("/search?categoria=Chicos")}><p className={style.buttonText5}>NIÑOS</p></button>
                         </div>
                     </div>
                 </div>
