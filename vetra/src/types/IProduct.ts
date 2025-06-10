@@ -11,9 +11,9 @@ export interface IProduct {
     precio: number,
     stock: number,
     categoria: ICategories[],
-    color: string[],
+    color: string,
     marca: string,
     imagen: string,
-    descuento: IDiscount | 0
+    descuento: IDiscount
     talles: ISize[],
 }

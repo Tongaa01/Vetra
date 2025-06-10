@@ -38,7 +38,7 @@ export const ProductView = () => {
         return `$${(price ?? 0).toLocaleString("es-AR")}`;
     };
 
-    const discountedPrice = product && product.descuento !== 0
+    const discountedPrice = product && product.descuento.descuento !== 0
         ? Math.floor(product.precio * ((100 - product.descuento.descuento) / 100))
         : null;
 
@@ -53,7 +53,7 @@ export const ProductView = () => {
                     <div className={style.productDetails}>
                         <h1>{product?.nombre}</h1>
                         <p className={style.brand}>{product?.marca}</p>
-                        {product?.descuento !== 0 ? (
+                        {product?.descuento.descuento !== 0 ? (
                             <div className={style.priceBlock}>
                                 <span className={style.originalPrice}>{formatPrice(product?.precio)}</span>
                                 <span className={style.discountPrice}>{formatPrice(discountedPrice!)}</span>
