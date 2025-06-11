@@ -112,12 +112,16 @@
 
 .removeBtn {
     align-self: flex-start;
-    padding: 0;
-    color: #666;
+    padding: 0.4rem;
+    background-color: #141414;
+    border: none;
+    color: #fff;
 }
 
 .removeBtn:hover {
-    color: #141414;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
 }
 
 .summaryRow {
@@ -147,10 +151,12 @@
 }
 
 .checkoutBtn:hover {
-    background-color: #000;
+    background-color: #333;
+    cursor: pointer;
 }
 
 .continueBtn {
+    padding: 0.2rem;
     width: 100%;
     background-color: transparent;
     border: 1px solid #141414;
@@ -159,6 +165,7 @@
 
 .continueBtn:hover {
     background-color: #f0f0f0;
+    cursor: pointer;
 }
 
 /* Responsive */

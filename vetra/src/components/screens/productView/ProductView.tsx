@@ -73,7 +73,7 @@ export const ProductView = () => {
             product: product,
             amount: quantity,
             size: selectedSize,
-            price: discountedPrice ? discountedPrice : product.precio
+            price: discountedPrice ? discountedPrice : product.precio,
         }
 
         activeCart = [...activeCart, newCartItem]
@@ -115,7 +115,7 @@ export const ProductView = () => {
             product: product,
             amount: quantity,
             size: selectedSize,
-            price: discountedPrice ? discountedPrice : product.precio
+            price: discountedPrice ? discountedPrice : product.precio,
         }
 
         activeCart = [...activeCart, newCartItem]
