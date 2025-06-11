@@ -4,7 +4,7 @@ import { CiGrid2H, CiGrid41 } from "react-icons/ci";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getAllCategories } from "../../../http/categorieRequest";
 import { getAllDiscounts } from "../../../http/discountRequest";
-import { getAllProducts } from "../../../http/productRequest";
+import { getAllProducts, getAllProductsPaged } from "../../../http/productRequest";
 import type { ICategories } from "../../../types/ICategories";
 import type { IDiscount } from "../../../types/IDiscount";
 import type { IProduct } from "../../../types/IProduct";
@@ -21,12 +21,15 @@ export const ProductList = () => {
     const [categories, setCategories] = useState<ICategories[]>([])
     const [discounts, setDiscounts] = useState<IDiscount[]>([])
 
+    const [totalPages,setTotalPages]=useState<number[]>([])
+    const [activePage,setactivePage]=useState<string>("0")
+
     const fetchProducts = async () => {
         const sizeFilters = searchParams.getAll('talle')
 
         const cateFilters = searchParams.getAll('categoria')
 
-        const allProducts = await getAllProducts()
+        const allProducts = await getAllProductsPaged(activePage,"8")
 
         //Filtrado creado con la ayuda de chatgpt
 
@@ -74,13 +77,25 @@ export const ProductList = () => {
         setDiscounts(allDiscounts)
     }
 
-
     useEffect(() => {
         fetchProducts()
         fetchCategories()
         fetchDiscounts()
+    }, [searchParams,activePage])
 
-    }, [searchParams])
+    const pageTotal=async()=>{
+        const pageTotal=(await getAllProducts()).length
+        const pageArray=[]
+        for (let index = 1; index < Math.ceil(pageTotal/8)+1; index++) {
+            pageArray.push(index)
+            
+        }
+        setTotalPages(pageArray)
+    }
+
+    useEffect(() => {
+        pageTotal()
+    }, [])
 
     products.forEach((producto) => {
         if (producto.descuento.descuento !== 0) {
@@ -188,7 +203,14 @@ export const ProductList = () => {
                         );
                     })}
                 </div>}
-
+                    
+                    <div className={style.pageSelector}>
+                        {totalPages.map((el)=>(<p 
+                            className={style.pageSelector_button}
+                            onClick={()=>setactivePage((el-1).toString())}
+                                >{el}
+                            </p>))}
+                    </div>
         </div>
     )
 }

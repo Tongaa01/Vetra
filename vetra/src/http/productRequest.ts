@@ -19,6 +19,19 @@ export const getAllProducts=async():Promise<IProduct[]>=>{
         return []
     }
 }
+export const getAllProductsPaged=async(page:string,size:string):Promise<IProduct[]>=>{
+    try {
+        const response=await axios.get(`${baseURL}/paged?page=${page}&size=${size}`)
+        if(response){
+            return response.data.content
+        }
+        throw new Error("Ocurrio un error durante la obtencion de los productos paginados")
+    } catch (error) {
+        console.log("Ocurrio un error durante la obtencion de los productos paginados: ",error)
+        return []
+    }
+}
+
 export const getProductById=async(id:string)=>{
     try {
         const response=await axios.get(`${baseURL}/${id}`)
