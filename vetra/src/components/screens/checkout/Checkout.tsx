@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCartStore } from "../../../store/useCartStore";
+import { useCheckoutStore } from "../../../store/useCheckoutStore";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import styles from "./Checkout.module.css";
@@ -11,6 +12,7 @@ export const Checkout = () => {
     const location = useLocation()
 
     const cartItems = useCartStore((state) => state.activeCart)
+    const checkout = useCheckoutStore((state) => state.activeCheckout)
 
     const summaryRef = useRef<HTMLDivElement>(null);
     const [isSticky, setIsSticky] = useState(false);
@@ -117,13 +119,14 @@ export const Checkout = () => {
                                     <span>Mercado Pago</span>
                                 </label>
                                 <label className={styles.paymentMethod}>
-                                    <input type="radio" name="payment" />
-                                    <span>Tarjeta de crédito</span>
+                                    <input type="radio" name="payment" disabled/>
+                                    <span><i style={{color: "#777"}}>Tarjeta de crédito</i></span>
                                 </label>
                                 <label className={styles.paymentMethod}>
-                                    <input type="radio" name="payment" />
-                                    <span>Transferencia bancaria</span>
+                                    <input type="radio" name="payment" disabled/>
+                                    <span><i style={{color: "#777"}}>Transferencia bancaria</i></span>
                                 </label>
+                                <p><i>Por el momento el único medio disponible es Mercado Pago</i></p>
                             </div>
                         </div>
                     </section>
