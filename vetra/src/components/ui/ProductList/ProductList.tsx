@@ -161,11 +161,7 @@ export const ProductList = () => {
 
                                         </div>
                                         <div className={style.actionsGrid}>
-                                            <button className={style.buyButton} onClick={(e) => {
-                                                e.stopPropagation();
-                                                console.log("Producto añadido al carrito:", item.nombre);
-                                            }}>Comprar</button>
-                                            <button className={style.cartButton}>Añadir al carrito</button>
+                                            <button className={style.buyButton}>VER PRODUCTO</button>
                                         </div>
                                     </>
                                 ) : (
@@ -174,20 +170,13 @@ export const ProductList = () => {
                                             <h3>{item.nombre}</h3>
                                             <p>{item.descripcion}</p>
                                             <div className={style.actions}>
-                                                <button className={style.buyButton} onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    console.log("Producto comprado:", item.nombre);
-                                                }}>Comprar</button>
-                                                <button className={style.cartButton} onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    console.log("Producto añadido al carrito:", item.nombre);
-                                                }}>Añadir al carrito</button>
+                                                <button className={style.buyButton}>VER PRODUCTO</button>
                                             </div>
                                         </div>
                                         <div className={style.priceBlock}>
-                                            {item.precio !== 0 ? ( // CORREGIR
+                                            {item.descuento.descuento !== 0 ? (
                                                 <>
-                                                    <span className={style.originalPrice}>${item.precio.toLocaleString('es-AR')}</span>
+                                                    <span className={style.originalPrice}>${Number(item.precio).toLocaleString('es-AR')}</span>
                                                     <span className={style.discountPrice}>
                                                         ${precioFinal.toLocaleString('es-AR')}
                                                     </span>
