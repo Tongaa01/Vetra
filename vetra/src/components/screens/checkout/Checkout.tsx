@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { createBuyOrder } from "../../../http/buyOrderRequest";
 import { useCartStore } from "../../../store/useCartStore";
@@ -11,18 +11,38 @@ import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import styles from "./Checkout.module.css";
 
+interface IUserFormData {
+    nombre: string,
+    apellido: string,
+    calle: string,
+    codpost: number,
+    telefono: number,
+    email: string
+}
+
 export const Checkout = () => {
 
+    
     const navigate = useNavigate()
-    const location = useLocation()
 
     const cartItems = useCartStore((state) => state.activeCart)
     const checkout = useCheckoutStore((state) => state.activeCheckout)
     const user = useUserStore((state) => state.actireUser)
 
+    const initalValues:IUserFormData = {
+        nombre: user ? user.nombre : "",
+        apellido: user ? user.apellido : "",
+        calle: user?.direcciones[0] ? user.direcciones[0].calle : "",
+        codpost: user?.direcciones[0] ? user.direcciones[0].codpost : 0,
+        telefono: 0,
+        email: user ? user.email : ""
+    }
+
+
     const summaryRef = useRef<HTMLDivElement>(null);
     const [isSticky, setIsSticky] = useState(false);
     const [bottomOffset, setBottomOffset] = useState(0);
+    const [userFormInputs, setUserFormInputs] = useState<IUserFormData>(initalValues)
 
     if (cartItems.length == 0) {
         navigate(-1)
@@ -99,139 +119,137 @@ export const Checkout = () => {
         });
 
 
-handleCreateReceip()
-navigate("/");
+        handleCreateReceip()
+        navigate("/");
     };
 
-return (
-    <div className={styles.checkoutContainer}>
-        <Header />
+    const handleChangeInputs = (event: ChangeEvent<HTMLInputElement>) => {
+        const { value, name } = event.target
+        console.log(value, name)
+        setUserFormInputs((prev) => ({ ...prev, [`${ name }`]: value }))
+    }
+    return (
+        <div className={styles.checkoutContainer}>
+            <Header />
 
-        <main className={styles.checkoutMain}>
-            <h1 className={styles.checkoutTitle}>FINALIZAR COMPRA</h1>
+            <main className={styles.checkoutMain}>
+                <h1 className={styles.checkoutTitle}>FINALIZAR COMPRA</h1>
 
-            <div className={styles.checkoutContent}>
-                {/* Sección de información */}
-                <section className={styles.infoSection}>
-                    <div className={styles.sectionBlock}>
-                        <h2>DATOS DE ENVÍO</h2>
-                        <form className={styles.checkoutForm}>
-                            <div className={styles.formRow}>
-                                <div className={styles.formGroup}>
-                                    <label>Nombre</label>
-                                    <input type="text" placeholder="Tu nombre" value={user ? user.nombre : ""} onChange={()=>console.log("")} required />
-                                </div>
-                                <div className={styles.formGroup}>
-                                    <label>Apellido</label>
-                                    <input type="text" placeholder="Tu apellido" value={user ? user.apellido : ""} required />
-                                </div>
-                            </div>
-
-                            <div className={styles.formGroup}>
-                                <label>Dirección</label>
-                                <input type="text" placeholder="Dirección completa" required />
-                            </div>
-
-                            <div className={styles.formRow}>
-                                <div className={styles.formGroup}>
-                                    <label>Calle</label>
-                                    <input type="text" placeholder="Calle" value={user?.direcciones[0] ? user.direcciones[0].calle : ""}
-
-                                        required />
-                                </div>
-                                <div className={styles.formGroup}>
-                                    <label>Código Postal</label>
-                                    <input type="text" placeholder="CP" value={user?.direcciones[0] ? user.direcciones[0].codpost : ""} required />
-                                </div>
-                            </div>
-
-                            <div className={styles.formGroup}>
-                                <label>Teléfono</label>
-                                <input type="tel" placeholder="Número de contacto" required />
-                            </div>
-
-                            <div className={styles.formGroup}>
-                                <label>Email</label>
-                                <input type="email" placeholder="tu@email.com" value={user ? user.email : ""} required />
-                            </div>
-                        </form>
-                    </div>
-
-                    <div className={styles.sectionBlock}>
-                        <h2>MÉTODO DE PAGO</h2>
-                        <div className={styles.paymentMethods}>
-                            <label className={styles.paymentMethod}>
-                                <input type="radio" name="payment" defaultChecked />
-                                <span>Mercado Pago</span>
-                            </label>
-                            <label className={styles.paymentMethod}>
-                                <input type="radio" name="payment" disabled />
-                                <span><i style={{ color: "#777" }}>Tarjeta de crédito</i></span>
-                            </label>
-                            <label className={styles.paymentMethod}>
-                                <input type="radio" name="payment" disabled />
-                                <span><i style={{ color: "#777" }}>Transferencia bancaria</i></span>
-                            </label>
-                            <p><i>Por el momento el único medio disponible es Mercado Pago</i></p>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Resumen de compra con sticky */}
-                <section
-                    ref={summaryRef}
-                    className={`${styles.summarySection} ${isSticky ? styles.sticky : ''}`}
-                >
-                    <div className={styles.summaryBlock}>
-                        <h2>TU PEDIDO</h2>
-
-                        <div className={styles.orderItems}>
-                            {cartItems.map(item => (
-                                <div key={item.product.id} className={styles.orderItem}>
-                                    <div>
-                                        <p>{item.product.nombre}</p>
-                                        <small>{item.product.marca} | Talle: {item.size} | Cantidad: {item.amount}</small>
+                <div className={styles.checkoutContent}>
+                    {/* Sección de información */}
+                    <section className={styles.infoSection}>
+                        <div className={styles.sectionBlock}>
+                            <h2>DATOS DE ENVÍO</h2>
+                            <form className={styles.checkoutForm}>
+                                <div className={styles.formRow}>
+                                    <div className={styles.formGroup}>
+                                        <label>Nombre</label>
+                                        <input type="text" name="nombre" placeholder="Tu nombre" value={userFormInputs.nombre} onChange={handleChangeInputs} required />
                                     </div>
-                                    <p>${(item.price * item.amount).toLocaleString()}</p>
+                                    <div className={styles.formGroup}>
+                                        <label>Apellido</label>
+                                        <input type="text" name="apellido" placeholder="Tu apellido" value={userFormInputs.apellido} onChange={handleChangeInputs} required />
+                                    </div>
                                 </div>
-                            ))}
+
+                                <div className={styles.formRow}>
+                                    <div className={styles.formGroup}>
+                                        <label>Calle</label>
+                                        <input type="text" name="calle" placeholder="Calle" value={userFormInputs.calle} onChange={handleChangeInputs} required />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label>Código Postal</label>
+                                        <input type="text" name="codpost" placeholder="CP" value={userFormInputs.codpost} onChange={handleChangeInputs} required />
+                                    </div>
+                                </div>
+
+                                <div className={styles.formGroup}>
+                                    <label>Teléfono</label>
+                                    <input type="tel" name="telefono" placeholder="Número de contacto" value={userFormInputs.telefono} onChange={handleChangeInputs} required />
+                                </div>
+
+                                <div className={styles.formGroup}>
+                                    <label>Email</label>
+                                    <input type="email" name="email" placeholder="tu@email.com" value={userFormInputs.email} onChange={handleChangeInputs} required />
+                                </div>
+                            </form>
                         </div>
 
-                        <div className={styles.summaryRow}>
-                            <span>Subtotal</span>
-                            <span>${subtotal.toLocaleString()}</span>
+                        <div className={styles.sectionBlock}>
+                            <h2>MÉTODO DE PAGO</h2>
+                            <div className={styles.paymentMethods}>
+                                <label className={styles.paymentMethod}>
+                                    <input type="radio" name="payment" defaultChecked />
+                                    <span>Mercado Pago</span>
+                                </label>
+                                <label className={styles.paymentMethod}>
+                                    <input type="radio" name="payment" disabled />
+                                    <span><i style={{ color: "#777" }}>Tarjeta de crédito</i></span>
+                                </label>
+                                <label className={styles.paymentMethod}>
+                                    <input type="radio" name="payment" disabled />
+                                    <span><i style={{ color: "#777" }}>Transferencia bancaria</i></span>
+                                </label>
+                                <p><i>Por el momento el único medio disponible es Mercado Pago</i></p>
+                            </div>
                         </div>
+                    </section>
 
-                        <div className={styles.summaryRow}>
-                            <span>Envío</span>
-                            <span>${shipping.toLocaleString()}</span>
+                    {/* Resumen de compra con sticky */}
+                    <section
+                        ref={summaryRef}
+                        className={`${styles.summarySection} ${isSticky ? styles.sticky : ''}`}
+                    >
+                        <div className={styles.summaryBlock}>
+                            <h2>TU PEDIDO</h2>
+
+                            <div className={styles.orderItems}>
+                                {cartItems.map(item => (
+                                    <div key={item.product.id} className={styles.orderItem}>
+                                        <div>
+                                            <p>{item.product.nombre}</p>
+                                            <small>{item.product.marca} | Talle: {item.size} | Cantidad: {item.amount}</small>
+                                        </div>
+                                        <p>${(item.price * item.amount).toLocaleString()}</p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className={styles.summaryRow}>
+                                <span>Subtotal</span>
+                                <span>${subtotal.toLocaleString()}</span>
+                            </div>
+
+                            <div className={styles.summaryRow}>
+                                <span>Envío</span>
+                                <span>${shipping.toLocaleString()}</span>
+                            </div>
+
+                            <div className={`${styles.summaryRow} ${styles.totalRow}`}>
+                                <span>Total</span>
+                                <span>${total.toLocaleString()}</span>
+                            </div>
+
+                            <div className={styles.payButtonWrapper}>
+                                <button
+
+                                    className={styles.payButton}
+                                    onClick={handlePayment}
+                                >
+                                    CONFIRMAR Y PAGAR
+                                </button>
+                            </div>
+
+                            <div className={styles.securityInfo}>
+                                <p>Compra protegida por Vetra</p>
+                                <small>Datos cifrados con SSL</small>
+                            </div>
                         </div>
+                    </section>
+                </div>
+            </main>
 
-                        <div className={`${styles.summaryRow} ${styles.totalRow}`}>
-                            <span>Total</span>
-                            <span>${total.toLocaleString()}</span>
-                        </div>
-
-                        <div className={styles.payButtonWrapper}>
-                            <button
-
-                                className={styles.payButton}
-                                onClick={handlePayment}
-                            >
-                                CONFIRMAR Y PAGAR
-                            </button>
-                        </div>
-
-                        <div className={styles.securityInfo}>
-                            <p>Compra protegida por Vetra</p>
-                            <small>Datos cifrados con SSL</small>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </main>
-
-        <Footer />
-    </div>
-);
+            <Footer />
+        </div>
+    );
 };
