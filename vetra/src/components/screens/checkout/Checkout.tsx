@@ -50,7 +50,7 @@ export const Checkout = () => {
     }, []);
 
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.amount), 0);
-    const shipping = 1500;
+    const shipping = checkout!=0? checkout.shippingCost:0;
     const total = subtotal + shipping;
 
     const handlePayment = () => {
