@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useCartStore } from "../../../store/useCartStore";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
@@ -8,52 +8,34 @@ import styles from "./Checkout.module.css";
 export const Checkout = () => {
 
     const navigate = useNavigate()
+    const location = useLocation()
 
-    const activeCart = useCartStore((state) => state.activeCart)
+    const cartItems = useCartStore((state) => state.activeCart)
 
     const summaryRef = useRef<HTMLDivElement>(null);
     const [isSticky, setIsSticky] = useState(false);
     const [bottomOffset, setBottomOffset] = useState(0);
 
-    if (activeCart.length == 0 || navigate(-1) !== navigate("/cart")) {
+    if (cartItems.length == 0) {
         navigate(-1)
     }
 
-    // Datos de ejemplo
-    const cartItems = [
-        {
-            id: 1,
-            name: "Runner Velocity 4.0",
-            price: 25990,
-            quantity: 1,
-            size: "42",
-            color: "Negro"
-        },
-        {
-            id: 21,
-            name: "Winter Shield Pro",
-            price: 45990,
-            quantity: 1,
-            size: "L",
-            color: "Negro"
-        }
-    ];
 
-     useEffect(() => {
+    useEffect(() => {
         const handleScroll = () => {
             if (!summaryRef.current) return;
-            
+
             const summaryRect = summaryRef.current.getBoundingClientRect();
             const footerHeight = 100; // Ajusta según tu footer
             const viewportHeight = window.innerHeight;
-            
+
             // Calcular si el elemento está pegado al fondo
-            const shouldStick = 
-                summaryRect.bottom + footerHeight > viewportHeight && 
+            const shouldStick =
+                summaryRect.bottom + footerHeight > viewportHeight &&
                 summaryRect.top < viewportHeight - footerHeight;
-            
+
             setIsSticky(shouldStick);
-            
+
             // Calcular espacio disponible para el sticky
             const availableSpace = viewportHeight - footerHeight - summaryRect.height;
             setBottomOffset(Math.max(0, availableSpace));
@@ -65,9 +47,15 @@ export const Checkout = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.amount), 0);
     const shipping = 1500;
     const total = subtotal + shipping;
+
+    const handlePayment = () => {
+        // Lógica para procesar el pago
+        console.log("Procesando pago...");
+        navigate("/payment-success");
+    };
 
     return (
         <div className={styles.checkoutContainer}>
@@ -85,38 +73,38 @@ export const Checkout = () => {
                                 <div className={styles.formRow}>
                                     <div className={styles.formGroup}>
                                         <label>Nombre</label>
-                                        <input type="text" placeholder="Tu nombre" />
+                                        <input type="text" placeholder="Tu nombre" required />
                                     </div>
                                     <div className={styles.formGroup}>
                                         <label>Apellido</label>
-                                        <input type="text" placeholder="Tu apellido" />
+                                        <input type="text" placeholder="Tu apellido" required />
                                     </div>
                                 </div>
 
                                 <div className={styles.formGroup}>
                                     <label>Dirección</label>
-                                    <input type="text" placeholder="Dirección completa" />
+                                    <input type="text" placeholder="Dirección completa" required />
                                 </div>
 
                                 <div className={styles.formRow}>
                                     <div className={styles.formGroup}>
                                         <label>Ciudad</label>
-                                        <input type="text" placeholder="Ciudad" />
+                                        <input type="text" placeholder="Ciudad" required />
                                     </div>
                                     <div className={styles.formGroup}>
                                         <label>Código Postal</label>
-                                        <input type="text" placeholder="CP" />
+                                        <input type="text" placeholder="CP" required />
                                     </div>
                                 </div>
 
                                 <div className={styles.formGroup}>
                                     <label>Teléfono</label>
-                                    <input type="tel" placeholder="Número de contacto" />
+                                    <input type="tel" placeholder="Número de contacto" required />
                                 </div>
 
                                 <div className={styles.formGroup}>
                                     <label>Email</label>
-                                    <input type="email" placeholder="tu@email.com" />
+                                    <input type="email" placeholder="tu@email.com" required />
                                 </div>
                             </form>
                         </div>
@@ -140,19 +128,22 @@ export const Checkout = () => {
                         </div>
                     </section>
 
-                    {/* Resumen de compra */}
-                    <section className={styles.summarySection}>
+                    {/* Resumen de compra con sticky */}
+                    <section
+                        ref={summaryRef}
+                        className={`${styles.summarySection} ${isSticky ? styles.sticky : ''}`}
+                    >
                         <div className={styles.summaryBlock}>
                             <h2>TU PEDIDO</h2>
 
                             <div className={styles.orderItems}>
                                 {cartItems.map(item => (
-                                    <div key={item.id} className={styles.orderItem}>
+                                    <div key={item.product.id} className={styles.orderItem}>
                                         <div>
-                                            <p>{item.name}</p>
-                                            <small>{item.color} | Talle: {item.size}</small>
+                                            <p>{item.product.nombre}</p>
+                                            <small>{item.product.marca} | Talle: {item.size} | Cantidad: {item.amount}</small>
                                         </div>
-                                        <p>${(item.price * item.quantity).toLocaleString()}</p>
+                                        <p>${(item.price * item.amount).toLocaleString()}</p>
                                     </div>
                                 ))}
                             </div>
@@ -172,9 +163,15 @@ export const Checkout = () => {
                                 <span>${total.toLocaleString()}</span>
                             </div>
 
-                            <button className={styles.payButton}>
-                                CONFIRMAR Y PAGAR
-                            </button>
+                            <div className={styles.payButtonWrapper}>
+                                <button
+                                    
+                                    className={styles.payButton}
+                                    onClick={handlePayment}
+                                >
+                                    CONFIRMAR Y PAGAR
+                                </button>
+                            </div>
 
                             <div className={styles.securityInfo}>
                                 <p>Compra protegida por Vetra</p>
