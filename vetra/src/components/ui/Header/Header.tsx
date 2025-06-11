@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CiLogout } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useCartStore } from "../../../store/useCartStore";
 import { useUserStore } from "../../../store/userStore";
 import style from "./Header.module.css";
 
@@ -11,6 +12,7 @@ export const Header = () => {
     const activeUser = useUserStore((state) => state.actireUser)
     const deleteUser = useUserStore((state) => state.deleteUser)
     const toggleMenu = () => setMenuOpen(!menuOpen);
+    const cart = useCartStore((state) => state.activeCart)
 
     const handleLogOut = () => {
 
@@ -56,13 +58,15 @@ export const Header = () => {
                 </div>
 
                 <div className={style.headerShoppingCart}>
-                    <button onClick={() => navigate("/cart")}><span className="material-icons">shopping_cart</span></button>
+                    {cart.length == 0
+                        ? <button onClick={() => navigate("/cart")}><span className="material-icons">shopping_cart</span></button>
+                        : <button style={{color:"#ff4f4f"}} onClick={() => navigate("/cart")}><span className="material-icons">shopping_cart</span></button>}
                 </div>
 
                 <div className={style.headerAccount}>
                     {activeUser
-                        ? <div style={{whiteSpace:'nowrap'}}>
-                            {activeUser.nombre} <CiLogout style={{cursor:'pointer'}} onClick={handleLogOut} />
+                        ? <div style={{ whiteSpace: 'nowrap' }}>
+                            {activeUser.nombre} <CiLogout style={{ cursor: 'pointer' }} onClick={handleLogOut} />
                         </div>
                         : <div className={style.headerAccount}>
                             <button onClick={() => navigate("/login")}>Log-In</button>

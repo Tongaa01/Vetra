@@ -119,7 +119,7 @@ return (
                             <div className={styles.formRow}>
                                 <div className={styles.formGroup}>
                                     <label>Nombre</label>
-                                    <input type="text" placeholder="Tu nombre" value={user ? user.nombre : ""} required />
+                                    <input type="text" placeholder="Tu nombre" value={user ? user.nombre : ""} onChange={()=>console.log("")} required />
                                 </div>
                                 <div className={styles.formGroup}>
                                     <label>Apellido</label>
