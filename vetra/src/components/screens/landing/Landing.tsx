@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllCategories } from "../../../http/categorieRequest";
-import { getAllDiscounts } from "../../../http/discountRequest";
 import { getAllProducts } from "../../../http/productRequest";
-import type { ICategories } from "../../../types/ICategories";
 import type { IDiscount } from "../../../types/IDiscount";
 import type { IProduct } from "../../../types/IProduct";
 import { Footer } from "../../ui/Footer/Footer";
@@ -13,8 +10,6 @@ import style from "./Landing.module.css";
 export const Landing = () => {
 
     const [products, setProducts] = useState<IProduct[]>([])
-    const [categories, setCategories] = useState<ICategories[]>([])
-    const [discounts, setDiscounts] = useState<IDiscount[]>([])
 
 
     useEffect(() => {
@@ -24,22 +19,8 @@ export const Landing = () => {
             setProducts(allProducts)
         }
 
-        const fetchCategories = async () => {
-
-            const allCategories = await getAllCategories()
-            setCategories(allCategories)
-        }
-
-        const fetchDiscounts = async () => {
-
-            const allDiscounts = await getAllDiscounts()
-            setDiscounts(allDiscounts)
-        }
-
 
         fetchProducts()
-        fetchCategories()
-        fetchDiscounts()
 
     }, [])
 
@@ -87,10 +68,7 @@ export const Landing = () => {
                                                 ${Math.floor(item.precio * ((100 - item.descuento.descuento) / 100)).toLocaleString('es-AR')}
                                             </span>
                                         </div>
-                                        <button onClick={(e) => {
-                                            e.stopPropagation();
-                                            console.log("Producto añadido al carrito:", item.nombre);
-                                        }}>AÑADIR AL CARRITO</button>
+                                        <button>VER OFERTA</button>
                                     </div>
                                 </div>
                             ))}
