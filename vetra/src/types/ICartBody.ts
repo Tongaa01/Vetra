@@ -5,5 +5,4 @@ export interface ICartBody {
     amount: number,
     size: string,
     price: number,
-    shippingCost: number,
 }

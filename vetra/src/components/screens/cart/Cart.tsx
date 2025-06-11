@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "../../../store/useCartStore";
+import { useCheckoutStore } from "../../../store/useCheckoutStore";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import styles from "./Cart.module.css";
@@ -7,6 +9,8 @@ import styles from "./Cart.module.css";
 export const Cart = () => {
 
     const cartItems = useCartStore((state) => state.activeCart)
+    const checkout = useCheckoutStore((state) => state.setActiveCheckout)
+    const [shipping, setShipping] = useState<number>(0)
 
     const navigate = useNavigate()
 
@@ -27,17 +31,26 @@ export const Cart = () => {
         }
     ]
 
+    const handleNextStep = () => {
+
+        checkout({
+            subPrice: subtotal,
+            shippingCost: shipping,
+            totalPrice: total
+        })
+
+        navigate("/checkout")
+    }
 
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.amount), 0);
-    const shipping = 1500; // Costo de envío fijo
-    const total = subtotal + shipping;
+    let total = subtotal + shipping
 
     return (
         <div className={styles.cartContainer}>
             <Header />
 
             {cartItems.length == 0
-                ? <div style={{paddingLeft: "2rem"}}>
+                ? <div style={{ paddingLeft: "2rem" }}>
                     <h2>No hay productos dentro del carrito</h2>
                     <p>Agregue productos y luego vuelva aquí para continuar con el pago</p>
                 </div>
@@ -57,14 +70,8 @@ export const Cart = () => {
 
                                     <div className={styles.itemDetails}>
                                         <h3>{item.product.nombre}</h3>
-                                        <p>Color: {item.product.color}</p>
+                                        <p>Marca: {item.product.marca}</p>
                                         <p>Talle: {item.size}</p>
-
-                                        <div className={styles.quantityControls}>
-                                            <button className={styles.quantityBtn}>-</button>
-                                            <span>{item.amount}</span>
-                                            <button className={styles.quantityBtn}>+</button>
-                                        </div>
 
                                         <p className={styles.itemPrice}>${(item.price * item.amount).toLocaleString()}</p>
 
@@ -86,8 +93,17 @@ export const Cart = () => {
                             </div>
 
                             <div className={styles.summaryRow}>
+                                
                                 <span>Envío</span>
+                                <select onChange={(e) => setShipping(Number(e.target.value))}>
+                                    {shippingOptions.map(shipp => (
+                                        <option key={shipp.id} value={shipp.price}>
+                                            {shipp.description}: ${shipp.price.toLocaleString()}
+                                        </option>
+                                    ))}
+                                </select>
                                 <span>${shipping.toLocaleString()}</span>
+
                             </div>
 
                             <div className={`${styles.summaryRow} ${styles.totalRow}`}>
@@ -95,11 +111,11 @@ export const Cart = () => {
                                 <span>${total.toLocaleString()}</span>
                             </div>
 
-                            <button className={styles.checkoutBtn} onClick={()=>navigate("/checkout")}>
+                            <button className={styles.checkoutBtn} onClick={handleNextStep}>
                                 FINALIZAR COMPRA
                             </button>
 
-                            <button className={styles.continueBtn}>
+                            <button className={styles.continueBtn} onClick={() => navigate("/search")}>
                                 SEGUIR COMPRANDO
                             </button>
                         </section>
