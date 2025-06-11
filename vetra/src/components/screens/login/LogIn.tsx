@@ -1,5 +1,6 @@
 import { useEffect, useState, type ChangeEvent } from "react"
 import { useNavigate } from "react-router-dom"
+import Swal from "sweetalert2"
 import { authRequest } from "../../../http/auth/authRequest"
 import { getAllUsers } from "../../../http/userRequest"
 import { tokenIsExpired } from "../../../services/jwtService"
@@ -38,6 +39,23 @@ export const Login = () => {
         if (token) {
             localStorage.setItem("token", token)
             setLoggedUser(logInInfo.email)
+
+            const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: "success",
+            title: "Sesión iniciada",
+        });
+
             navigate("/")
         } else {
             setErrorMessage("Email o contraseña incorrectos")

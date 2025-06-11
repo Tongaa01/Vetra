@@ -25,13 +25,36 @@ export const ProductView = () => {
         setProduct(prod);
     };
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
     useEffect(() => {
         fetchProduct();
     }, [id]);
 
     const handleAddToCart = async () => {
-        if (!product || quantity > product.stock) return;
-        if (!selectedSize) return alert("Seleccioná un talle antes de continuar.");
+        if (!product || quantity > product.stock) return (
+
+            Toast.fire({
+                icon: "error",
+                title: "No se puede agregar una cantidad mayor al stock."
+            }));;
+
+        if (!selectedSize) return (
+
+            Toast.fire({
+                icon: "warning",
+                title: "Seleccioná un talle antes de continuar."
+            }));
 
         const updatedStock = product.stock - quantity;
         setProduct({ ...product, stock: updatedStock });
@@ -57,20 +80,26 @@ export const ProductView = () => {
 
         setCart(activeCart)
 
-        Swal.fire({
-            position: "top-end",
+        Toast.fire({
             icon: "success",
-            title: "Añadido al carrito con éxito",
-            showConfirmButton: false,
-            timer: 1500
+            title: "Añadido al carrito con éxito!",
         });
 
         navigate("/search")
     };
 
     const handleBuy = () => {
-        if (!product || quantity > product.stock) return;
-        if (!selectedSize) return alert("Seleccioná un talle antes de continuar.");
+        if (!product || quantity > product.stock) return (
+            Toast.fire({
+                icon: "error",
+                title: "No se puede agregar una cantidad mayor al stock."
+            }));
+
+        if (!selectedSize) return (
+            Toast.fire({
+                icon: "warning",
+                title: "Seleccioná un talle antes de continuar."
+            }));
 
         const updatedStock = product.stock - quantity;
         setProduct({ ...product, stock: updatedStock });
