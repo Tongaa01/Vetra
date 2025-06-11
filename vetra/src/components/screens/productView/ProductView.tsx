@@ -44,6 +44,14 @@ export const ProductView = () => {
     }, [id]);
 
     const handleAddToCart = async () => {
+        if(!handleCheckToken()){
+            Toast.fire({
+                icon: "error",
+                title: "Debes iniciar sesion para hacer eso."
+            })
+            navigate('/login')
+            return
+        }
         if (!product || quantity > product.stock) return (
 
             Toast.fire({
@@ -91,6 +99,14 @@ export const ProductView = () => {
     };
 
     const handleBuy = () => {
+        if(!handleCheckToken()){
+            Toast.fire({
+                icon: "error",
+                title: "Debes iniciar sesion para hacer eso."
+            })
+            navigate('/login')
+            return
+        }
         if (!product || quantity > product.stock) return (
             Toast.fire({
                 icon: "error",
@@ -128,8 +144,12 @@ export const ProductView = () => {
     };
 
     const handleCheckToken = ()=>{
-        if (getLocalToken() && tokenIsExpired(getLocalToken() ? getLocalToken() : "")) {
-
+        const token=getLocalToken()
+        console.log(token)
+        if (token && !tokenIsExpired(token ? token : "")) {
+            return true
+        }else{
+            return false
         }
     }
 

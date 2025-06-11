@@ -61,8 +61,8 @@ export const Header = () => {
 
                 <div className={style.headerAccount}>
                     {activeUser
-                        ? <div>
-                            {activeUser.nombre} <CiLogout onClick={handleLogOut} />
+                        ? <div style={{whiteSpace:'nowrap'}}>
+                            {activeUser.nombre} <CiLogout style={{cursor:'pointer'}} onClick={handleLogOut} />
                         </div>
                         : <div className={style.headerAccount}>
                             <button onClick={() => navigate("/login")}>Log-In</button>
