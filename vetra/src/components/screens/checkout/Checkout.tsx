@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { useCartStore } from "../../../store/useCartStore";
 import { useCheckoutStore } from "../../../store/useCheckoutStore";
 import { Footer } from "../../ui/Footer/Footer";
@@ -50,13 +51,18 @@ export const Checkout = () => {
     }, []);
 
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.amount), 0);
-    const shipping = checkout!=0? checkout.shippingCost:0;
+    const shipping = checkout != 0 ? checkout.shippingCost : 0;
     const total = subtotal + shipping;
 
     const handlePayment = () => {
         // Lógica para procesar el pago
         console.log("Procesando pago...");
-        navigate("/payment-success");
+        Swal.fire({
+            title: "Genial!",
+            text: "Tu orden se generó con éxito, ahora iremos a completar el pago...",
+            icon: "success"
+        });
+        navigate("/api/mercadopago/create-preference/");
     };
 
     return (
@@ -119,12 +125,12 @@ export const Checkout = () => {
                                     <span>Mercado Pago</span>
                                 </label>
                                 <label className={styles.paymentMethod}>
-                                    <input type="radio" name="payment" disabled/>
-                                    <span><i style={{color: "#777"}}>Tarjeta de crédito</i></span>
+                                    <input type="radio" name="payment" disabled />
+                                    <span><i style={{ color: "#777" }}>Tarjeta de crédito</i></span>
                                 </label>
                                 <label className={styles.paymentMethod}>
-                                    <input type="radio" name="payment" disabled/>
-                                    <span><i style={{color: "#777"}}>Transferencia bancaria</i></span>
+                                    <input type="radio" name="payment" disabled />
+                                    <span><i style={{ color: "#777" }}>Transferencia bancaria</i></span>
                                 </label>
                                 <p><i>Por el momento el único medio disponible es Mercado Pago</i></p>
                             </div>
@@ -168,7 +174,7 @@ export const Checkout = () => {
 
                             <div className={styles.payButtonWrapper}>
                                 <button
-                                    
+
                                     className={styles.payButton}
                                     onClick={handlePayment}
                                 >
