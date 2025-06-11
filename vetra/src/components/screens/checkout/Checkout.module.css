@@ -186,9 +186,54 @@
     .checkoutContent {
         flex-direction: column;
     }
-    
+
     .formRow {
         flex-direction: column;
         gap: 1rem;
+    }
+}
+
+/* ... (estilos previos) ... */
+
+.summarySection {
+    flex: 1;
+    position: relative;
+    align-self: flex-start;
+    /* Para mantener el tamaño correcto */
+}
+
+.summarySection.sticky {
+    position: sticky;
+    top: 20px;
+    /* Margen desde el header */
+    transition: all 0.3s ease;
+}
+
+.summaryBlock {
+    background-color: #f8f8f8;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+    position: relative;
+}
+
+.payButtonContainer {
+    position: sticky;
+    bottom: 20px;
+    background: #f8f8f8;
+    padding-top: 10px;
+    margin-top: -10px;
+    /* Compensa el padding */
+    z-index: 1;
+}
+
+/* Asegurar que el footer no tape el botón */
+@media (max-width: 768px) {
+    .summarySection.sticky {
+        position: relative;
+        top: auto;
+    }
+
+    .payButtonContainer {
+        position: static;
     }
 }

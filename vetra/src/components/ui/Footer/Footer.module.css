@@ -13,9 +13,7 @@
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    /* <- esta es la clave */
     align-items: flex-start;
-    /* opcional, por si querés que todo quede arriba alineado */
     padding: 0 20px;
 }
 

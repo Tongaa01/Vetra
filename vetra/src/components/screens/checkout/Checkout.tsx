@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "../../../store/useCartStore";
 import { Footer } from "../../ui/Footer/Footer";
@@ -10,7 +11,11 @@ export const Checkout = () => {
 
     const activeCart = useCartStore((state) => state.activeCart)
 
-    if (activeCart.length == 0) {
+    const summaryRef = useRef<HTMLDivElement>(null);
+    const [isSticky, setIsSticky] = useState(false);
+    const [bottomOffset, setBottomOffset] = useState(0);
+
+    if (activeCart.length == 0 || navigate(-1) !== navigate("/cart")) {
         navigate(-1)
     }
 
@@ -33,6 +38,32 @@ export const Checkout = () => {
             color: "Negro"
         }
     ];
+
+     useEffect(() => {
+        const handleScroll = () => {
+            if (!summaryRef.current) return;
+            
+            const summaryRect = summaryRef.current.getBoundingClientRect();
+            const footerHeight = 100; // Ajusta según tu footer
+            const viewportHeight = window.innerHeight;
+            
+            // Calcular si el elemento está pegado al fondo
+            const shouldStick = 
+                summaryRect.bottom + footerHeight > viewportHeight && 
+                summaryRect.top < viewportHeight - footerHeight;
+            
+            setIsSticky(shouldStick);
+            
+            // Calcular espacio disponible para el sticky
+            const availableSpace = viewportHeight - footerHeight - summaryRect.height;
+            setBottomOffset(Math.max(0, availableSpace));
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll(); // Ejecutar al montar
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const shipping = 1500;

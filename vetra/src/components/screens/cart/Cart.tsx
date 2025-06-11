@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useCartStore } from "../../../store/useCartStore";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
@@ -6,6 +7,8 @@ import styles from "./Cart.module.css";
 export const Cart = () => {
 
     const cartItems = useCartStore((state) => state.activeCart)
+
+    const navigate = useNavigate()
 
 
     const shippingOptions = [ // si, lo creé de esta forma, me parece más ordenado
@@ -34,7 +37,7 @@ export const Cart = () => {
             <Header />
 
             {cartItems.length == 0
-                ? <div>
+                ? <div style={{paddingLeft: "2rem"}}>
                     <h2>No hay productos dentro del carrito</h2>
                     <p>Agregue productos y luego vuelva aquí para continuar con el pago</p>
                 </div>
@@ -92,7 +95,7 @@ export const Cart = () => {
                                 <span>${total.toLocaleString()}</span>
                             </div>
 
-                            <button className={styles.checkoutBtn}>
+                            <button className={styles.checkoutBtn} onClick={()=>navigate("/checkout")}>
                                 FINALIZAR COMPRA
                             </button>
 
