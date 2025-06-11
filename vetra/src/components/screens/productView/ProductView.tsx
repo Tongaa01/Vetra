@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { getProductById, updateProduct } from "../../../http/productRequest";
+import { tokenIsExpired } from "../../../services/jwtService";
+import { getLocalToken } from "../../../services/tokenService";
 import { useCartStore } from "../../../store/useCartStore";
 import type { ICartBody } from "../../../types/ICartBody";
 import type { IProduct } from "../../../types/IProduct";
@@ -124,6 +126,12 @@ export const ProductView = () => {
 
         navigate("/cart")
     };
+
+    const handleCheckToken = ()=>{
+        if (getLocalToken() && tokenIsExpired(getLocalToken() ? getLocalToken() : "")) {
+
+        }
+    }
 
     const formatPrice = (price: number | undefined) => {
         return `$${(price ?? 0).toLocaleString("es-AR")}`;
