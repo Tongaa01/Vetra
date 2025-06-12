@@ -10,6 +10,10 @@ import type { IOrderDetail } from "../../../types/IOrderDetail";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import styles from "./Checkout.module.css";
+import { tokenIsExpired } from "../../../services/jwtService";
+import { refreshToken } from "../../../services/tokenService";
+import type { IUser } from "../../../types/IUser";
+import { getAllUsers } from "../../../http/userRequest";
 
 interface IUserFormData {
     nombre: string,
@@ -25,6 +29,8 @@ export const Checkout = () => {
     
     const navigate = useNavigate()
 
+    const setActiveUser=useUserStore((state)=>state.setActiveUser)
+    
     const cartItems = useCartStore((state) => state.activeCart)
     const checkout = useCheckoutStore((state) => state.activeCheckout)
     const user = useUserStore((state) => state.actireUser)
@@ -33,8 +39,8 @@ export const Checkout = () => {
         nombre: user ? user.nombre : "",
         apellido: user ? user.apellido : "",
         calle: user?.direcciones[0] ? user.direcciones[0].calle : "",
-        codpost: user?.direcciones[0] ? user.direcciones[0].codpost : 0,
-        telefono: 0,
+        codpost: user?.direcciones[0] ? user.direcciones[0].codpost : 5500,
+        telefono: 261111111,
         email: user ? user.email : ""
     }
 
@@ -47,9 +53,23 @@ export const Checkout = () => {
     if (cartItems.length == 0) {
         navigate(-1)
     }
-
+    const refreshUser=async()=>{
+            const token=localStorage.getItem('token')
+            if(token){
+                if(tokenIsExpired(token)){
+                    refreshToken()
+                }
+                const userId=localStorage.getItem('userId')
+                const users: IUser[] = await getAllUsers();
+                const user = users.find(user => user.id?.toString() === userId);
+                setActiveUser(user!)
+            }else{
+                navigate('/login')
+            }
+        }
 
     useEffect(() => {
+        refreshUser()
         const handleScroll = () => {
             if (!summaryRef.current) return;
 

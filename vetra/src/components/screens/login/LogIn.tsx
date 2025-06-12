@@ -17,7 +17,6 @@ const initialValues = {
 
 export const Login = () => {
     const setActiveUser = useUserStore((state) => state.setActiveUser)
-    const deleteUser = useUserStore((state) => state.deleteUser)
 
     const [logInInfo, setLogInInfo] = useState<ILoginBody>(initialValues)
     const [errorMessage, setErrorMessage] = useState<string>("")
@@ -61,11 +60,13 @@ export const Login = () => {
             setErrorMessage("Email o contraseña incorrectos")
         }
     }
-    const setLoggedUser = async (email: string): Promise<string|ROLE> => {
+    const setLoggedUser = async (email: string): Promise<string | ROLE> => {
         const users: IUser[] = await getAllUsers();
         const user = users.find(user => user.email === email);
 
         if (user) {
+            localStorage.setItem('userId',user.id!.toString())
+            localStorage.setItem('username',user.nombre)
             setActiveUser(user);
             return user.rol;
         }

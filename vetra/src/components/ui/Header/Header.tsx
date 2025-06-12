@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiLogout } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useCartStore } from "../../../store/useCartStore";
 import { useUserStore } from "../../../store/userStore";
 import style from "./Header.module.css";
-
+const initialValue=""
 export const Header = () => {
     const navigate = useNavigate();
-    const [menuOpen, setMenuOpen] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false)
+    const [loggedUserName, setLoggedUserName] = useState<string | null>(initialValue)
     const activeUser = useUserStore((state) => state.actireUser)
     const deleteUser = useUserStore((state) => state.deleteUser)
     const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -30,6 +31,10 @@ export const Header = () => {
         navigate("/login")
 
     }
+    useEffect(()=>{
+        let username=localStorage.getItem('username')
+        setLoggedUserName(username)
+    },[])
 
     return (
         <div className={style.headerContainer}>
@@ -64,9 +69,9 @@ export const Header = () => {
                 </div>
 
                 <div className={style.headerAccount}>
-                    {activeUser
+                    { loggedUserName
                         ? <div style={{ whiteSpace: 'nowrap' }}>
-                            {activeUser.nombre} <CiLogout style={{ cursor: 'pointer' }} onClick={handleLogOut} />
+                            {loggedUserName} <CiLogout style={{ cursor: 'pointer' }} onClick={handleLogOut} />
                         </div>
                         : <div className={style.headerAccount}>
                             <button onClick={() => navigate("/login")}>Log-In</button>

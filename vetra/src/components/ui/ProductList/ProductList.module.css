@@ -188,10 +188,27 @@
   gap: 1rem;
 }
 .pageSelector_button{
+  color: #141414;
+  background-color: white;
+  padding: 0.3rem;
   width: 1rem;
   text-align: center;
-  border: 2px solid black;
+  border: none;
 }
 .pageSelector_button:hover{
+
+  background-color: #999;
+  cursor: pointer;
+}
+.pageSelector_button_active{
+  color: white;
+  background-color: #141414;
+  padding: 0.3rem;
+  width: 1rem;
+  text-align: center;
+  border: none;
+}
+.pageSelector_button_active:hover{
+  background-color: #333;
   cursor: pointer;
 }

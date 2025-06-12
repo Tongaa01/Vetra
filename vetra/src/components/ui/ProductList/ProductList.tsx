@@ -195,7 +195,7 @@ export const ProductList = () => {
                     
                     <div className={style.pageSelector}>
                         {totalPages.map((el)=>(<p 
-                            className={style.pageSelector_button}
+                            className={!(activePage==(el-1).toString())?style.pageSelector_button:style.pageSelector_button_active}
                             onClick={()=>setactivePage((el-1).toString())}
                                 >{el}
                             </p>))}

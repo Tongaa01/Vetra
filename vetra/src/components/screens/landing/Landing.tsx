@@ -6,13 +6,37 @@ import type { IProduct } from "../../../types/IProduct";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import style from "./Landing.module.css";
+import { tokenIsExpired } from "../../../services/jwtService";
+import { refreshToken } from "../../../services/tokenService";
+import { useUserStore } from "../../../store/userStore";
+import type { IUser } from "../../../types/IUser";
+import { getAllUsers } from "../../../http/userRequest";
 
 export const Landing = () => {
 
+    const navigate = useNavigate()
+    
+    const setActiveUser=useUserStore((state)=>state.setActiveUser)
+
     const [products, setProducts] = useState<IProduct[]>([])
 
+    const refreshUser=async()=>{
+        const token=localStorage.getItem('token')
+        if(token){
+            if(tokenIsExpired(token)){
+                refreshToken()
+            }
+            const userId=localStorage.getItem('userId')
+            const users: IUser[] = await getAllUsers();
+            const user = users.find(user => user.id?.toString() === userId);
+            setActiveUser(user!)
+        }else{
+            navigate('/login')
+        }
+    }
 
     useEffect(() => {
+        refreshUser()
         const fetchProducts = async () => {
 
             const allProducts = await getAllProducts()
@@ -24,12 +48,9 @@ export const Landing = () => {
 
     }, [])
 
-    const navigate = useNavigate()
-
     return (
         <div className={style.landingContainer}>
             <Header />
-
             <main className={style.mainContent}>
                 {/* Carrusel principal */}
                 <div className={style.heroCarousel}>

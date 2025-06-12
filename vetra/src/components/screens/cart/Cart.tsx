@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCartStore } from "../../../store/useCartStore";
 import { useCheckoutStore } from "../../../store/useCheckoutStore";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import styles from "./Cart.module.css";
+import { tokenIsExpired } from "../../../services/jwtService";
+import { refreshToken } from "../../../services/tokenService";
+import type { IUser } from "../../../types/IUser";
+import { getAllUsers } from "../../../http/userRequest";
+import { useUserStore } from "../../../store/userStore";
 
 export const Cart = () => {
 
@@ -14,8 +19,28 @@ export const Cart = () => {
 
     const navigate = useNavigate()
 
+    const setActiveUser=useUserStore((state)=>state.setActiveUser)
 
-    const shippingOptions = [ // si, lo creé de esta forma, me parece más ordenado
+    const refreshUser=async()=>{
+        const token=localStorage.getItem('token')
+        if(token){
+            if(tokenIsExpired(token)){
+                refreshToken()
+            }
+            const userId=localStorage.getItem('userId')
+            const users: IUser[] = await getAllUsers();
+            const user = users.find(user => user.id?.toString() === userId);
+            setActiveUser(user!)
+        }else{
+            navigate('/login')
+        }
+    }
+    useEffect(()=>{
+        refreshUser()
+    },[])
+
+
+    const shippingOptions = [ // si, lo creé de esta forma, me parece más ordenado  - ilegal lo tuyo
         {
             id: 1,
             description: "Envío estándar",

@@ -3,13 +3,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { getProductById, updateProduct } from "../../../http/productRequest";
 import { tokenIsExpired } from "../../../services/jwtService";
-import { getLocalToken } from "../../../services/tokenService";
+import { getLocalToken, refreshToken } from "../../../services/tokenService";
 import { useCartStore } from "../../../store/useCartStore";
 import type { ICartBody } from "../../../types/ICartBody";
 import type { IProduct } from "../../../types/IProduct";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import style from "./productView.module.css";
+import { getAllUsers } from "../../../http/userRequest";
+import { useUserStore } from "../../../store/userStore";
+import type { IUser } from "../../../types/IUser";
 
 export const ProductView = () => {
     const [product, setProduct] = useState<IProduct>();
@@ -20,6 +23,8 @@ export const ProductView = () => {
     let activeCart = useCartStore((state) => state.activeCart)
 
     const navigate = useNavigate()
+
+    const setActiveUser=useUserStore((state)=>state.setActiveUser)
 
     const fetchProduct = async () => {
         if (!id) return;
@@ -160,6 +165,25 @@ export const ProductView = () => {
     const discountedPrice = product && product.descuento.descuento !== 0
         ? Math.floor(product.precio * ((100 - product.descuento.descuento) / 100))
         : null;
+    const refreshUser=async()=>{
+        const token=localStorage.getItem('token')
+        if(token){
+            if(tokenIsExpired(token)){
+                refreshToken()
+            }
+            const userId=localStorage.getItem('userId')
+            const users: IUser[] = await getAllUsers();
+            const user = users.find(user => user.id?.toString() === userId);
+            setActiveUser(user!)
+        }else{
+            navigate('/login')
+        }
+    }
+
+    useEffect(()=>{
+        refreshUser()
+    },[])
+
 
     return (
         <div>
