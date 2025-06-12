@@ -1,5 +1,6 @@
 import { useState, type ChangeEvent } from "react"
 import { useNavigate } from "react-router-dom"
+import Swal from "sweetalert2"
 import { createUser, getAllUsers } from "../../../http/userRequest"
 import type { IRegisterBody } from "../../../types/IRegisterBody"
 import { ROLE, type IUser } from "../../../types/IUser"
@@ -23,6 +24,18 @@ export const SingIn = () => {
         const { value, name } = event.target
         setsingInInfo((prev) => ({ ...prev, [name]: value }))
     }
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
 
     const handleRegister = async () => {
         if (singInInfo.password !== singInInfo.confirmPassword) {
@@ -56,7 +69,13 @@ export const SingIn = () => {
             return
         }
 
+        localStorage.clear()
+
         navigate('/login')
+        Toast.fire({
+            icon: "success",
+            title: "Usuario creado! ahora inicie sesión",
+        });
     }
 
     return (
