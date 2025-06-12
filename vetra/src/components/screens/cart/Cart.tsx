@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { getProductById, updateProduct } from "../../../http/productRequest";
 import { useCartStore } from "../../../store/useCartStore";
 import { useCheckoutStore } from "../../../store/useCheckoutStore";
+import { useUserStore } from "../../../store/userStore";
 import type { IProduct } from "../../../types/IProduct";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
@@ -14,6 +15,7 @@ export const Cart = () => {
     const cartItems = useCartStore((state) => state.activeCart)
     const setCart = useCartStore((state) => state.setActiveCart)
     const deleteCart = useCartStore((state) => state.deleteCart)
+
     const checkout = useCheckoutStore((state) => state.setActiveCheckout)
     const [shipping, setShipping] = useState<number>(0)
 
