@@ -17,7 +17,6 @@ const initialValues = {
 
 export const Login = () => {
     const setActiveUser = useUserStore((state) => state.setActiveUser)
-    const deleteUser = useUserStore((state) => state.deleteUser)
 
     const [logInInfo, setLogInInfo] = useState<ILoginBody>(initialValues)
     const [errorMessage, setErrorMessage] = useState<string>("")

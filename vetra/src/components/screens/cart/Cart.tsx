@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { getProductById, updateProduct } from "../../../http/productRequest";
 import { useCartStore } from "../../../store/useCartStore";
 import { useCheckoutStore } from "../../../store/useCheckoutStore";
+import type { IProduct } from "../../../types/IProduct";
 import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import styles from "./Cart.module.css";
@@ -9,11 +12,24 @@ import styles from "./Cart.module.css";
 export const Cart = () => {
 
     const cartItems = useCartStore((state) => state.activeCart)
+    const setCart = useCartStore((state) => state.setActiveCart)
+    const deleteCart = useCartStore((state) => state.deleteCart)
     const checkout = useCheckoutStore((state) => state.setActiveCheckout)
     const [shipping, setShipping] = useState<number>(0)
 
     const navigate = useNavigate()
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2300,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    })
 
     const shippingOptions = [ // si, lo creé de esta forma, me parece más ordenado
         {
@@ -45,8 +61,45 @@ export const Cart = () => {
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.amount), 0);
     let total = subtotal + shipping
 
+    const handleDeleteAndRestock = async (id: number, amount: number) => {
+
+        const productToRestock: IProduct = await getProductById(id.toString())
+        const restock = productToRestock.stock + amount
+
+        await updateProduct({ ...productToRestock, stock: restock })
+
+        const newCart = cartItems.filter((el) => el.product.id !== productToRestock.id)
+
+        Toast.fire({
+            icon: "warning",
+            title: "Producto eliminado del carrito",
+        });
+
+        setCart(newCart)
+    }
+
+    const handleDeleteEntireCartAndRestock = async () => {
+
+        await Promise.all(
+            cartItems.map(async (items) => {
+
+                const productToRestock: IProduct = await getProductById(items.product.id!.toString())
+                const restock = productToRestock.stock + items.amount
+
+                await updateProduct({ ...productToRestock, stock: restock })
+            })
+        )
+
+        Toast.fire({
+            icon: "warning",
+            title: "Carrito vaciado exitosamente",
+        });
+
+        deleteCart()
+    }
+
     return (
-        <div className={styles.cartContainer}>
+        <div className={styles.cartContainer} >
             <Header />
 
             {cartItems.length == 0
@@ -72,15 +125,21 @@ export const Cart = () => {
                                         <h3>{item.product.nombre}</h3>
                                         <p>Marca: {item.product.marca}</p>
                                         <p>Talle: {item.size}</p>
+                                        {item.product.categorias[0].nombre == 'Zapatillas'
+                                            ? <p>Cantidad de pares de esta zapatilla: {item.amount}</p>
+                                            : <p>Cantidad de esta campera: {item.amount}</p>}
 
                                         <p className={styles.itemPrice}>${(item.price * item.amount).toLocaleString()}</p>
 
-                                        <button className={styles.removeBtn}>
+                                        <button className={styles.removeBtn}
+                                            onClick={() => { handleDeleteAndRestock(item.product.id!, item.amount) }}
+                                        >
                                             Eliminar
                                         </button>
                                     </div>
                                 </div>
                             ))}
+                            <button className={styles.deleteCartBtn} onClick={handleDeleteEntireCartAndRestock}>ELIMINAR CARRITO</button>
                         </section>
 
                         {/* Resumen de compra */}
@@ -93,7 +152,7 @@ export const Cart = () => {
                             </div>
 
                             <div className={styles.summaryRow}>
-                                
+
                                 <span>Envío</span>
                                 <select onChange={(e) => setShipping(Number(e.target.value))}>
                                     {shippingOptions.map(shipp => (
@@ -124,7 +183,7 @@ export const Cart = () => {
             }
 
 
-            <Footer />
-        </div>
+            < Footer />
+        </div >
     );
 };

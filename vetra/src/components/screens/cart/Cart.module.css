@@ -124,6 +124,22 @@
     cursor: pointer;
 }
 
+.deleteCartBtn {
+    margin-top: 1rem;
+    align-self: flex-end;
+    padding: 0.4rem;
+    background-color: #ff1414;
+    border: none;
+    color: #fff;
+    width: 100%;
+}
+
+.deleteCartBtn:hover {
+    background-color: #ff4747;
+    color: #fff;
+    cursor: pointer;
+}
+
 .summaryRow {
     display: flex;
     justify-content: space-between;
