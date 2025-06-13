@@ -209,13 +209,13 @@
 
 .categoryButton:hover .buttonText1,
 .categoryButton:hover .buttonText2 {
-    transform: translateY(250%);
+    transform: translateY(350%);
 }
 
 .categoryButton:hover .buttonText3,
 .categoryButton:hover .buttonText4,
 .categoryButton:hover .buttonText5 {
-    transform: translateY(190%);
+    transform: translateY(270%);
 }
 
 .categoryButton:hover {
