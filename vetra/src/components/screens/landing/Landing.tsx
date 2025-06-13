@@ -30,20 +30,15 @@ export const Landing = () => {
             const users: IUser[] = await getAllUsers();
             const user = users.find(user => user.id?.toString() === userId);
             setActiveUser(user!)
-        }else{
-            navigate('/login')
         }
     }
 
     useEffect(() => {
         refreshUser()
         const fetchProducts = async () => {
-
             const allProducts = await getAllProducts()
             setProducts(allProducts)
         }
-
-
         fetchProducts()
 
     }, [])

@@ -21,7 +21,7 @@ export const Cart = () => {
     const deleteCart = useCartStore((state) => state.deleteCart)
 
     const checkout = useCheckoutStore((state) => state.setActiveCheckout)
-    const [shipping, setShipping] = useState<number>(0)
+    const [shipping, setShipping] = useState<number>(8000)
 
     const navigate = useNavigate()
 

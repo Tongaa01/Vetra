@@ -26,8 +26,6 @@ export const Catalog = () => {
             const users: IUser[] = await getAllUsers();
             const user = users.find(user => user.id?.toString() === userId);
             setActiveUser(user!)
-        }else{
-            navigate('/login')
         }
     }
     useEffect(()=>{
