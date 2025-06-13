@@ -18,6 +18,8 @@ import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { createOrderDetail } from "../../../http/orderDetailRequest";
 import { getPreferenceId } from "../../../http/MP/mercadoPagoRequest";
 import { getLocalDateTimeISO } from "../../../services/dateService";
+import type { IProduct } from "../../../types/IProduct";
+import type { IDiscount } from "../../../types/IDiscount";
 
 interface IUserFormData {
     nombre: string,
@@ -27,22 +29,22 @@ interface IUserFormData {
     telefono: number,
     email: string
 }
-const MP_PUBLIC_KEY=import.meta.env.VITE_MP_PUBLIC_KEY
+const MP_PUBLIC_KEY = import.meta.env.VITE_MP_PUBLIC_KEY
 
 initMercadoPago(MP_PUBLIC_KEY);
 
 export const Checkout = () => {
 
-    
+
     const navigate = useNavigate()
 
-    const setActiveUser=useUserStore((state)=>state.setActiveUser)
-    
+    const setActiveUser = useUserStore((state) => state.setActiveUser)
+
     const cartItems = useCartStore((state) => state.activeCart)
     const checkout = useCheckoutStore((state) => state.activeCheckout)
     const user = useUserStore((state) => state.actireUser)
 
-    const initalValues:IUserFormData = {
+    const initalValues: IUserFormData = {
         nombre: user ? user.nombre : "",
         apellido: user ? user.apellido : "",
         calle: user?.direcciones[0] ? user.direcciones[0].calle : "",
@@ -58,26 +60,26 @@ export const Checkout = () => {
     const [userFormInputs, setUserFormInputs] = useState<IUserFormData>(initalValues)
 
     //Mercado Pago
-    const [mpReady,setMpReady]=useState<boolean>(false)
-    const [preferenceKey,setPreferenceKey]=useState<string>()
+    const [mpReady, setMpReady] = useState<boolean>(false)
+    const [preferenceKey, setPreferenceKey] = useState<string>()
 
     if (cartItems.length == 0) {
         navigate(-1)
     }
-    const refreshUser=async()=>{
-            const token=localStorage.getItem('token')
-            if(token){
-                if(tokenIsExpired(token)){
-                    refreshToken()
-                }
-                const userId=localStorage.getItem('userId')
-                const users: IUser[] = await getAllUsers();
-                const user = users.find(user => user.id?.toString() === userId);
-                setActiveUser(user!)
-            }else{
-                navigate('/login')
+    const refreshUser = async () => {
+        const token = localStorage.getItem('token')
+        if (token) {
+            if (tokenIsExpired(token)) {
+                refreshToken()
             }
+            const userId = localStorage.getItem('userId')
+            const users: IUser[] = await getAllUsers();
+            const user = users.find(user => user.id?.toString() === userId);
+            setActiveUser(user!)
+        } else {
+            navigate('/login')
         }
+    }
 
     useEffect(() => {
         refreshUser()
@@ -110,47 +112,21 @@ export const Checkout = () => {
     const shipping = checkout != 0 ? checkout.shippingCost : 0;
     const total = subtotal + shipping;
 
-    const handleCreateReceip = async () => {
 
-        let items: IOrderDetail[] = []
+    const handlePayment = async () => {
+        const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.amount), 0);
+        const shipping = checkout != 0 ? checkout.shippingCost : 0;
+        const total = subtotal + shipping;
 
-        cartItems.forEach((el) => {
-            let itemProduct: IOrderDetail = {
-                ordenCompraId: 4,
-                producto: el.product,
-                cantidad: el.amount,
-                precioUnitario: el.product.precio
-            }
 
-            items.push(itemProduct)
 
-        })
-
+        const date = getLocalDateTimeISO()
 
         const newBuyOrder: IBuyOrder = {
-            pedidoId: 1,
-            detalles: items,
-            fechaOrden: new Date(),
+            detalles: [],
+            fechaOrden: date,
             montoTotal: total,
             medioPago: "MERCADOPAGO"
-        }
-
-        await createBuyOrder(newBuyOrder)
-
-        console.log(newBuyOrder)
-    }
-    
-
-
-
-    const handlePayment = async() => {
-        const date=getLocalDateTimeISO()
-
-        const newBuyOrder:IBuyOrder={
-            detalles:[],
-            fechaOrden:date,
-            montoTotal:total,
-            medioPago:"MERCADOPAGO"
         }
 
         cartItems.forEach((el) => {
@@ -161,17 +137,42 @@ export const Checkout = () => {
             }
             newBuyOrder.detalles.push(itemProduct)
         })
+        const desc:IDiscount={
+            fechaInicio:new Date(getLocalDateTimeISO()),
+            fechaCierre:new Date(getLocalDateTimeISO()),
+            descuento:0
+        }
+        const shippingCostProduct:IProduct={
+            id:1,
+            nombre:"Costo de envio",
+            descripcion:"Costo del envi",
+            precio:shipping,
+            stock:1,
+            categorias:[],
+            color:"", 
+            marca:"", 
+            imagen:"", 
+            descuento:desc, 
+            talles:[]
+        }
+        let shippingConst: IOrderDetail = {
+            producto: shippingCostProduct,
+            cantidad: 1,
+            precioUnitario: shipping
+        }
 
-        const response=await createBuyOrder(newBuyOrder)
+        newBuyOrder.detalles.push(shippingConst)
 
-        if(response){
+        const response = await createBuyOrder(newBuyOrder)
+
+        if (response) {
             console.log(response)
-            const data=await getPreferenceId(response.id)
-            if(data){
+            const data = await getPreferenceId(response.id)
+            if (data) {
                 console.log(data)
                 setPreferenceKey(data)
                 setMpReady(true)
-                console.log(preferenceKey,mpReady)
+                console.log(preferenceKey, mpReady)
             }
         }
     };
@@ -179,7 +180,7 @@ export const Checkout = () => {
     const handleChangeInputs = (event: ChangeEvent<HTMLInputElement>) => {
         const { value, name } = event.target
         console.log(value, name)
-        setUserFormInputs((prev) => ({ ...prev, [`${ name }`]: value }))
+        setUserFormInputs((prev) => ({ ...prev, [`${name}`]: value }))
     }
     return (
         <div className={styles.checkoutContainer}>
@@ -284,15 +285,15 @@ export const Checkout = () => {
                             </div>
 
                             <div className={styles.payButtonWrapper}>
-                                {preferenceKey && mpReady?
-                                    <Wallet initialization={{ preferenceId:preferenceKey  }} />
-                                :<button
+                                {preferenceKey && mpReady ?
+                                    <Wallet initialization={{ preferenceId: preferenceKey }} />
+                                    : <button
 
-                                    className={styles.payButton}
-                                    onClick={handlePayment}
-                                >
-                                    CONFIRMAR Y PAGAR
-                                </button>}
+                                        className={styles.payButton}
+                                        onClick={handlePayment}
+                                    >
+                                        CONFIRMAR Y PAGAR
+                                    </button>}
                             </div>
 
                             <div className={styles.securityInfo}>

@@ -12,13 +12,15 @@ import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import style from "./Landing.module.css";
 
-const activeUser=useUserStore((state)=>state.actireUser)
+
 
 export const Landing = () => {
 
     const navigate = useNavigate()
     
     const setActiveUser=useUserStore((state)=>state.setActiveUser)
+
+    const activeUser=useUserStore((state)=>state.actireUser)
 
     const [products, setProducts] = useState<IProduct[]>([])
 
