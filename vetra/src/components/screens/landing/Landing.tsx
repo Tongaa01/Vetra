@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllProducts } from "../../../http/productRequest";
-import type { IDiscount } from "../../../types/IDiscount";
-import type { IProduct } from "../../../types/IProduct";
-import { Footer } from "../../ui/Footer/Footer";
-import { Header } from "../../ui/Header/Header";
-import style from "./Landing.module.css";
+import { getAllUsers } from "../../../http/userRequest";
 import { tokenIsExpired } from "../../../services/jwtService";
 import { refreshToken } from "../../../services/tokenService";
 import { useUserStore } from "../../../store/userStore";
+import type { IDiscount } from "../../../types/IDiscount";
+import type { IProduct } from "../../../types/IProduct";
 import type { IUser } from "../../../types/IUser";
-import { getAllUsers } from "../../../http/userRequest";
+import { Footer } from "../../ui/Footer/Footer";
+import { Header } from "../../ui/Header/Header";
+import style from "./Landing.module.css";
 
 export const Landing = () => {
 
@@ -116,7 +116,7 @@ export const Landing = () => {
                     <div className={style.promoContent}>
                         <h2>OFERTA POR TIEMPO LIMITADO</h2>
                         <p>Mirá los productos que tenemos para vos este finde.</p>
-                        <button className={style.ctaButton} onClick={() => navigate("/search/offers")}>VER OFERTAS</button>
+                        <button className={style.ctaButton} onClick={() => navigate("/search")}>VER OFERTAS</button>
                     </div>
                 </div>
 

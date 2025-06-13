@@ -14,6 +14,9 @@ import { Proposito } from "../components/screens/footerPages/vetra/Proposito/Pro
 import { TrabajaConNosotros } from "../components/screens/footerPages/vetra/TrabajaConNosotros/TrabajaConNosotros"
 import { Landing } from "../components/screens/landing/Landing"
 import { Login } from "../components/screens/login/LogIn"
+import { Failure } from "../components/screens/mercadoPago/failure/Failure"
+import { Pending } from "../components/screens/mercadoPago/pending/Pending"
+import { Success } from "../components/screens/mercadoPago/success/Success"
 import { ProductView } from "../components/screens/productView/ProductView"
 import { SingIn } from "../components/screens/singin/SignIn"
 import ScrollToTop from "../functions/ScrollToTop/ScrollToTop"
@@ -28,6 +31,18 @@ export const AppRouter = () => {
             <ScrollToTop />
 
             <Routes>
+
+                // Endpoints de MP
+                <Route path="/success" element={
+                    <Success />
+                } />
+                <Route path="/pending" element={
+                    <Pending />
+                } />
+                <Route path="/failure" element={
+                    <Failure />
+                } />
+
                 // Landing, login y signin
                 <Route path="/" element={
                     <Landing />
