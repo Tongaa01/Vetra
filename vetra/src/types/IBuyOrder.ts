@@ -3,9 +3,9 @@ import type { IOrderDetail } from "./IOrderDetail";
 
 export interface IBuyOrder{
     id?:number,
-    pedidoId:number,
+    pedidoId?:number,
     detalles:IOrderDetail[],
-    fechaOrden:Date,
+    fechaOrden:Date |string,
     montoTotal:number,
     medioPago:string
 }

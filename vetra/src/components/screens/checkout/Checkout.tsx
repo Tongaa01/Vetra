@@ -14,6 +14,10 @@ import { tokenIsExpired } from "../../../services/jwtService";
 import { refreshToken } from "../../../services/tokenService";
 import type { IUser } from "../../../types/IUser";
 import { getAllUsers } from "../../../http/userRequest";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import { createOrderDetail } from "../../../http/orderDetailRequest";
+import { getPreferenceId } from "../../../http/MP/mercadoPagoRequest";
+import { getLocalDateTimeISO } from "../../../services/dateService";
 
 interface IUserFormData {
     nombre: string,
@@ -23,6 +27,9 @@ interface IUserFormData {
     telefono: number,
     email: string
 }
+const MP_PUBLIC_KEY=import.meta.env.VITE_MP_PUBLIC_KEY
+
+initMercadoPago(MP_PUBLIC_KEY);
 
 export const Checkout = () => {
 
@@ -49,6 +56,10 @@ export const Checkout = () => {
     const [isSticky, setIsSticky] = useState(false);
     const [bottomOffset, setBottomOffset] = useState(0);
     const [userFormInputs, setUserFormInputs] = useState<IUserFormData>(initalValues)
+
+    //Mercado Pago
+    const [mpReady,setMpReady]=useState<boolean>(false)
+    const [preferenceKey,setPreferenceKey]=useState<string>()
 
     if (cartItems.length == 0) {
         navigate(-1)
@@ -106,7 +117,7 @@ export const Checkout = () => {
         cartItems.forEach((el) => {
             let itemProduct: IOrderDetail = {
                 ordenCompraId: 4,
-                productoId: el.product.id!,
+                producto: el.product,
                 cantidad: el.amount,
                 precioUnitario: el.product.precio
             }
@@ -128,19 +139,41 @@ export const Checkout = () => {
 
         console.log(newBuyOrder)
     }
-
-    const handlePayment = () => {
-        // Lógica para procesar el pago
-        console.log("Procesando pago...");
-        Swal.fire({
-            title: "Genial!",
-            text: "Tu orden se generó con éxito, ahora iremos a completar el pago...",
-            icon: "success"
-        });
+    
 
 
-        handleCreateReceip()
-        navigate("/");
+
+    const handlePayment = async() => {
+        const date=getLocalDateTimeISO()
+
+        const newBuyOrder:IBuyOrder={
+            detalles:[],
+            fechaOrden:date,
+            montoTotal:total,
+            medioPago:"MERCADOPAGO"
+        }
+
+        cartItems.forEach((el) => {
+            let itemProduct: IOrderDetail = {
+                producto: el.product,
+                cantidad: el.amount,
+                precioUnitario: el.product.precio
+            }
+            newBuyOrder.detalles.push(itemProduct)
+        })
+
+        const response=await createBuyOrder(newBuyOrder)
+
+        if(response){
+            console.log(response)
+            const data=await getPreferenceId(response.id)
+            if(data){
+                console.log(data)
+                setPreferenceKey(data)
+                setMpReady(true)
+                console.log(preferenceKey,mpReady)
+            }
+        }
     };
 
     const handleChangeInputs = (event: ChangeEvent<HTMLInputElement>) => {
@@ -251,13 +284,15 @@ export const Checkout = () => {
                             </div>
 
                             <div className={styles.payButtonWrapper}>
-                                <button
+                                {preferenceKey && mpReady?
+                                    <Wallet initialization={{ preferenceId:preferenceKey  }} />
+                                :<button
 
                                     className={styles.payButton}
                                     onClick={handlePayment}
                                 >
                                     CONFIRMAR Y PAGAR
-                                </button>
+                                </button>}
                             </div>
 
                             <div className={styles.securityInfo}>
