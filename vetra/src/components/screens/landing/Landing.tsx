@@ -12,6 +12,8 @@ import { Footer } from "../../ui/Footer/Footer";
 import { Header } from "../../ui/Header/Header";
 import style from "./Landing.module.css";
 
+const activeUser=useUserStore((state)=>state.actireUser)
+
 export const Landing = () => {
 
     const navigate = useNavigate()
@@ -40,8 +42,13 @@ export const Landing = () => {
             setProducts(allProducts)
         }
         fetchProducts()
-
     }, [])
+
+    useEffect(()=>{
+        if(activeUser){
+            setActiveUser(activeUser)
+        }
+    },[activeUser])
 
     return (
         <div className={style.landingContainer}>
